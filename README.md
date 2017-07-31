@@ -1,0 +1,1 @@
+# Sinatra Launch Manifest
