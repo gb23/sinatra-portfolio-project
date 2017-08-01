@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20170727224127) do
 
   create_table "payloads", force: :cascade do |t|
     t.string  "name"
-    t.string  "type"
+    t.string  "purpose"
     t.string  "payload_supplier"
     t.text    "about"
     t.float   "weight"
