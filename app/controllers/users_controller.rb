@@ -1,33 +1,31 @@
 class UsersController < ApplicationController
-    get '/organizations/login' do
-        erb :'organizations/login'
+    get '/users/login' do
+        erb :'users/login'
     end
 
-    get '/organizations/create_organization' do
-        erb :'organizations/create_organization'
+    get '/users/create_user' do
+        erb :'users/create_user'
     end
 
-    post '/organizations/create_organization' do
+    post '/users/create_user' do
 
-        org = Organization.new(name: params[:name], password: params[:password], about: params[:content])
-        if org.save #only true if user has typed in password.  If blank, won't be true
-            redirect to '/rockets'
+        user = User.new(username: params[:name], password: params[:password], first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
+        if user.save #only true if user has typed in password.  If blank, won't be true
+            redirect to '/fridges'
         else
-            erb :'organization/failure'
+            erb :'users/failure'
         end
     end
 
-    post '/organizations/login' do
-        organization = Organization.find_by(name: params[:name])
-        if organization && organization.authenticate(params[:password])
-            session[:user_id] = organization.id
-            redirect to '/rockets'
+    post '/users/login' do
+        user = User.find_by(username: params[:name])
+        if user && user.authenticate(params[:password])
+            session[:user_id] = user.id
+            redirect to '/items'
         else
-            redirect to '/organizations/failure'
+            erb :'users/failure'
         end
     end
 
-    get '/organizations/failure' do 
-        erb :'organizations/failure'
-    end
+  
 end
