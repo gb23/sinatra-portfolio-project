@@ -13,32 +13,31 @@
 
 ActiveRecord::Schema.define(version: 20170727224127) do
 
-  create_table "events", force: :cascade do |t|
-    t.datetime "datetime"
-    t.string   "location"
-    t.integer  "rocket_id"
-  end
-
-  create_table "organizations", force: :cascade do |t|
+  create_table "fridges", force: :cascade do |t|
     t.string "name"
-    t.text   "about"
   end
 
-  create_table "payloads", force: :cascade do |t|
-    t.string  "name"
-    t.string  "purpose"
-    t.string  "payload_supplier"
-    t.text    "about"
-    t.float   "weight"
-    t.integer "rocket_id"
+  create_table "items", force: :cascade do |t|
+    t.string   "name"
+    t.string   "category"
+    t.text     "note"
+    t.datetime "date_sell_by"
+    t.datetime "date_expires"
+    t.float    "grams"
+    t.integer  "fridge_id"
   end
 
-  create_table "rockets", force: :cascade do |t|
-    t.string  "name"
-    t.integer "stages"
-    t.text    "about"
-    t.text    "mission"
-    t.integer "organization_id"
+  create_table "user_fridges", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "fridge_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "username"
+    t.string "email"
+    t.string "password_digest"
   end
 
 end

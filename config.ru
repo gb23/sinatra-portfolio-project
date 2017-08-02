@@ -5,8 +5,8 @@ if ActiveRecord::Migrator.needs_migration?
 end
 
 use Rack::MethodOverride
-use OrganizationsController
-use RocketsController
-use PayloadsController
-use EventsController
+use UsersController
+use FridgesController
+use ItemsController
+
 run ApplicationController

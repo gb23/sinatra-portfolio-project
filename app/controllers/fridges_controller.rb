@@ -1,4 +1,13 @@
-class RocketsController < ApplicationController
+class FridgesController < ApplicationController
+  
+  get '/rockets' do
+    if logged_in?
+      erb :'rockets/index'
+    else
+      redirect to '/'
+    end
+  end
+  
   # get '/tweets' do
   #   if logged_in?
   #     @tweets = Tweet.all
