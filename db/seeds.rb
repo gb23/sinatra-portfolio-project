@@ -19,8 +19,9 @@ i7k = Item.create(name: "Apple", category: "Fruit", note: "Gala", date_sell_by: 
 i8k = Item.create(name: "Banana", category: "Fruit", note: nil, date_sell_by: nil , date_expires: nil, grams: 205)
 i9k = Item.create(name: "Avocado", category: "Vegetable", note: nil, date_sell_by: nil, date_expires: nil, grams: 240)
 i10k = Item.create(name: "Beans, Greens, and Grains", category: "Frozen Meal", note: "African dish", date_sell_by: DateTime.new(2017,9,1) , date_expires: DateTime.new(2018,4,14), grams: 340)
+i11k = Item.create(name: "Coke", category: "Beverage", note: nil, date_sell_by: nil, date_expires: nil, grams: 360)
 
-u1a.fridges.last.items << i1k << i2k << i3k << i4k 
+u1a.fridges.last.items << i1k << i2k << i3k << i4k << i11k
 u1b.fridges.last.items << i5k << i6k << i7k << i8k << i9k << i10k
 
 i1g = Item.create(name: "Southwest Salad", category: "Frozen Meal", note: "African dish", date_sell_by: DateTime.new(2017,9,1) , date_expires: DateTime.new(2018,4,14), grams: 340)
@@ -44,8 +45,7 @@ u1a.fridges.first.items << i1b << i2b << i3b << i4b << i5b
 #-------------------------------
 
 u2 = User.create(first_name: "Tom", last_name: "Bradey", username:"bradet", password: "g", email:"bradet@outlook.com")
-f4 = Fridge.create(name: "kitchen fridge")
-u2.fridges << f4
+u2.fridges << f3
 
 u2_i1k = Item.create(name: "Veggie Enchiladas", category: "Frozen Meal", note: "2 enchiladas with black beans and tofu", date_sell_by: DateTime.new(2017,8,26) , date_expires: DateTime.new(2017,11,15), grams: 270)
 u2_i2k = Item.create(name: "Power Greens", category: "Salad", note: "spinach and baby kale", date_sell_by: DateTime.new(2017,8,20) , date_expires: DateTime.new(2017,8,30), grams: 100)

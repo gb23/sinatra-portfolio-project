@@ -1,1 +1,39 @@
-users/index
+<table>
+<tr>
+  <th>Name</th>
+  <th>Quantity</th>
+  <th>Category</th>
+  <th>Sell By Date</th>
+  <th>Expiration Date</th>
+  <th>Weight(grams)</th>
+  <th>Note</th>
+  <th>Fridge</th>
+</tr>
+<% @user.items.each do |item| %>
+  <tr>
+  <% if !@duplicate_names.find {|slug| slug == item.slug} %>
+      <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
+        <%item_grouping = @user.items.select_by_slug(item.slug) %>
+      <td><%=item_grouping.size %></td>
+      <% if item_grouping.size > 1 %>
+        <% @duplicate_names << item.slug %>
+      <% end %>
+      <td><%= item.category %></td>
+      <td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
+      <td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
+      <td><%= item.grams %></td>
+      <td> Item Note </td>
+      <td><%= item.fridge.name %></td>
+  <% end %>
+  </tr>
+<% end %>
+</table>
+
+
+  <%# t.string   "name"
+    t.string   "category"
+    t.text     "note"
+    t.datetime "date_sell_by"
+    t.datetime "date_expires"
+    t.float    "grams"
+    t.integer  "fridge_id" %>
