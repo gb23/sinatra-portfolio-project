@@ -45,7 +45,7 @@ u1a.fridges.first.items << i1b << i2b << i3b << i4b << i5b
 #-------------------------------
 
 u2 = User.create(first_name: "Tom", last_name: "Bradey", username:"bradet", password: "g", email:"bradet@outlook.com")
-u2.fridges << f3
+u2.fridges << Fridge.create(name: "kitchen fridge")
 
 u2_i1k = Item.create(name: "Veggie Enchiladas", category: "Frozen Meal", note: "2 enchiladas with black beans and tofu", date_sell_by: DateTime.new(2017,8,26) , date_expires: DateTime.new(2017,11,15), grams: 270)
 u2_i2k = Item.create(name: "Power Greens", category: "Salad", note: "spinach and baby kale", date_sell_by: DateTime.new(2017,8,20) , date_expires: DateTime.new(2017,8,30), grams: 100)
