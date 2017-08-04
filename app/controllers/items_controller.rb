@@ -3,10 +3,9 @@ class ItemsController < ApplicationController
     get '/items' do
         if logged_in?
             @user = current_user
-         #   @duplicate_names = []
-         #   @fridges_size = num_of_fridges(@user) 
-         #   @fridge_identification = 1
-       #  @items_in_fridges = items_in_fridges(@user)
+            @duplicate_names = []
+            @fridges_hash = {}
+            @fridges_hash = create_fridges_hash(@user)
             erb :'items/index'
         else
             erb :'users/failure'
@@ -17,7 +16,6 @@ class ItemsController < ApplicationController
         if logged_in?
             @user = current_user
 binding.pry
-
         @item_grouping = @user.items.select_by_slug(params[:slug])
 
         else
@@ -26,32 +24,25 @@ binding.pry
     end
 
     helpers do
-        def num_of_fridges(user)
-            user.fridges.size if user.fridges
+        def create_fridges_hash(user)
+            duplicate_names = []
+            fridges_hash = {}
+   
+            user.fridges.each do |fridge|
+                fridges_hash[fridge] = []
+                fridge.items.each do |item| 
+                    if !duplicate_names.find{|slug| slug == item.slug}
+                        item_grouping = user.items.select_by_slug(item.slug)
+                        item[:quantity] = item_grouping.size
+                        if item_grouping.size > 1
+                            duplicate_names << item.slug
+                        end
+                        fridges_hash[fridge] << item
+                    end
+                end
+            end 
+            fridges_hash
         end
-
-        # def items_in_fridges(user)
-        #     num_of_fridges = num_of_fridges(user)
-        #     fridge_identification = 0
-        #     items_in_fridges = {}
-
-        #     user.fridges.each do |fridge|
-
-        #         items_in_fridges[fridge] = 
-
-        #     end
-
-         
-        #     #return { #<kitchen_fridge> => [<#item>,<#item>,<#item>],   ??Quantity??
-        #     #         #<beverage_fridge> => [<>,<>,<>],
-        #   #           #<any_fridge> =>....
-        #    #        }
-        # end
-
-        # def assign_items_to_fridge
-
-        # end
-
     end
 
 end

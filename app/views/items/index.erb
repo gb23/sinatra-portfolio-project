@@ -1,16 +1,11 @@
-<%= @user.fridges.each do |fridge| %>
-  <h2>fridge.name</h2>
-    <% fridge.items.each do |item| %>
-      
 
+<%# #     #return { #<kitchen_fridge> => [<#item>,<#item>,<#item>],   ??Quantity??
+        #     #         #<beverage_fridge> => [<>,<>,<>],
+        #   #           #<any_fridge> =>....
+        #    #  } %>
 
-
-    <% end %>
-<% end %>
-<%# ------------------- %>
-<% while @fridge_identification <= @fridges_size %>
-
-  <h2><%= @user.fridges[@fridge_identification - 1].name %></h2>
+<% @fridges_hash.each do |fridge, items| %>
+  <h2><%= fridge.name %></h2>
   <table>
   <tr>
     <th>Name</th>
@@ -21,29 +16,36 @@
     <th>Weight(grams)</th>
     <th>Note</th>
   </tr>
-  <% @user.items.each do |item| %>
-    <% if item.fridge.id == @fridge_identification %>
-      <tr>
-        <% if !@duplicate_names.find {|slug| slug == item.slug} %>
-            <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
-              <%item_grouping = @user.items.select_by_slug(item.slug) %>
-            <td><%=item_grouping.size %></td>
-            <% if item_grouping.size > 1 %>
-              <% @duplicate_names << item.slug %>
-            <% end %>
-            <td><%= item.category %></td>
-            <td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
-            <td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
-            <td><%= item.grams %></td>
-            <td> Item Note </td>
+  <%items.each do |item| %>
+    <tr>
+      <% if !@duplicate_names.find {|slug| slug == item.slug} %>
+        <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
+        <%item_grouping = @user.items.select_by_slug(item.slug) %>
+        <td><%=item_grouping.size %></td>
+        <% if item_grouping.size > 1 %>
+          <% @duplicate_names << item.slug %>
         <% end %>
-      </tr>
-    <% end %>
-  <% end %>
-  <% @fridge_identification += 1 %>
-  </table>
+        <td><%= item.category %></td>
+        <td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
+        <td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
+        <td><%= item.grams %></td>
+        <td> Item Note </td>
+      <% end %>
+    </tr>
 
+  <% end %>
+  </table>
 <% end %>
+
+
+
+
+
+
+
+
+<%# ------------------- %>
+
 
 
  

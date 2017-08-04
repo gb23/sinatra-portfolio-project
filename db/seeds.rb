@@ -15,14 +15,14 @@ i3k = Item.create(name: "Peanut Butter", category: "Spread", note: "chunky organ
 i4k = Item.create(name: "Jelly", category: "Spread", note: "raspberry, reduced sugar", date_sell_by: DateTime.new(2017,9,14) , date_expires: DateTime.new(2017,10,31), grams: 270)
 i5k = Item.create(name: "Almond Milk", category: "Beverage", note: nil, date_sell_by: DateTime.new(2017,11,30) , date_expires: DateTime.new(2017,12,15), grams: 310)
 i6k = Item.create(name: "Apple", category: "Fruit", note: "Gala", date_sell_by: nil , date_expires: nil, grams: 100.5)
-i7k = Item.create(name: "Apple", category: "Fruit", note: "Gala", date_sell_by: nil , date_expires: nil, grams: 100.5)
 i8k = Item.create(name: "Banana", category: "Fruit", note: nil, date_sell_by: nil , date_expires: nil, grams: 205)
 i9k = Item.create(name: "Avocado", category: "Vegetable", note: nil, date_sell_by: nil, date_expires: nil, grams: 240)
 i10k = Item.create(name: "Beans, Greens, and Grains", category: "Frozen Meal", note: "African dish", date_sell_by: DateTime.new(2017,9,1) , date_expires: DateTime.new(2018,4,14), grams: 340)
 i11k = Item.create(name: "Coke", category: "Beverage", note: nil, date_sell_by: nil, date_expires: nil, grams: 360)
+i7k = Item.create(name: "Apple", category: "Fruit", note: "Gala", date_sell_by: nil , date_expires: nil, grams: 100.5)
 
-u1a.fridges.last.items << i1k << i2k << i3k << i4k << i11k
-u1b.fridges.last.items << i5k << i6k << i7k << i8k << i9k << i10k
+u1a.fridges.last.items << i1k << i2k << i3k << i4k << i11k << i6k
+u1b.fridges.last.items << i5k << i7k << i8k << i9k << i10k
 
 i1g = Item.create(name: "Southwest Salad", category: "Frozen Meal", note: "African dish", date_sell_by: DateTime.new(2017,9,1) , date_expires: DateTime.new(2018,4,14), grams: 340)
 i2g = Item.create(name: "Non-dairy Coffee Creamer", category: "Frozen Meal", note: "African dish", date_sell_by: DateTime.new(2017,9,1) , date_expires: DateTime.new(2018,4,14), grams: 340)
@@ -42,7 +42,7 @@ i5b = Item.create(name: "Sparkling Water", category: "Beverage", note: "Lemon", 
 
 u1a.fridges.first.items << i1b << i2b << i3b << i4b << i5b
 
-#-------------------------------
+# #-------------------------------
 
 u2 = User.create(first_name: "Tom", last_name: "Bradey", username:"bradet", password: "g", email:"bradet@outlook.com")
 u2.fridges << Fridge.create(name: "kitchen fridge")
