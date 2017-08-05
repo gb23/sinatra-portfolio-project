@@ -5,8 +5,9 @@ class ItemsController < ApplicationController
         if logged_in?
             @user = current_user
             @duplicate_names = []
-            @fridges_hash = {}
-            @fridges_hash = create_and_sort_fridges_hash(@user)
+            fridges_hash = {}
+            fridges_hash = create_and_sort_fridges_hash(@user)
+            @fridges_hash = apply_sort_to_multiple_items(fridges_hash)
             erb :'items/index'
         else
             erb :'users/failure'
@@ -54,7 +55,6 @@ class ItemsController < ApplicationController
                 sorted_items = sort_items(fridge)
                 sorted_items.each do |item| 
                     if !duplicate_names.find{|slug| slug == item.slug}
-
                         item_grouping = user.items.select_by_slug(item.slug)
                         item_grouping.each do |i|
                             i.quantity = item_grouping.size
@@ -64,6 +64,7 @@ class ItemsController < ApplicationController
 
                         if item_grouping.size > 1
                             duplicate_names << item.slug
+                            multiple_item_differences(user, item)
                         end
                         fridges_hash[fridge] << item
                     end
@@ -71,6 +72,35 @@ class ItemsController < ApplicationController
             end
          fridges_hash
         end 
+    end
+
+    def multiple_item_differences(user, item)
+        potential_multiples = ["category", "grams", "date_expires", "date_sell_by"]
+        #in order to be in this method, item quantity is greater than 1 
+        #based on slug, look for more than 1 entry in uniq array FOR each item.attribute
+        #if uniq.size is greater than 1 for that attribute, set the corresponding tag.
+        same_items_array = user.items.select_by_slug(item.slug)
+        index = 0
+        while index < potential_multiples.size
+            if same_items_array.uniq{ |item| item.send(potential_multiples[index])}.size > 1
+                set_tags(potential_multiples[index], item)
+            end
+            index += 1
+        end
+  
+
+    end
+
+    def set_tags (attribute, item)
+        if attribute == "category"
+        item.category = "**/@@"
+        elsif attribute == "grams"
+        item.grams = 0.0
+        elsif attribute == "date_expires"
+        item.date_expires = DateTime.new(1111,11,11)
+        elsif attribute == "date_sell_by"
+        item.date_sell_by = DateTime.new(1111,11,11)
+        end
     end
 
     def sort_items(fridge)
@@ -109,5 +139,25 @@ class ItemsController < ApplicationController
                 end
             end
         end
+    end
+
+    def apply_sort_to_multiple_items(fridges_hash)
+        fridges_hash.each do |fridge, items|
+            temp_array = []
+            #looking at items array: if any items have item.session[:sort_choice] set to "**/@@"
+            #remove them from items and add them to temp_array
+            items.each do |item|
+                if item.send(session[:sort_choice]) == "**/@@" || item.send(session[:sort_choice]) == 0.0 || item.send(session[:sort_choice]) == DateTime.new(1111,11,11)
+                    temp_array << item
+                    items.delete(item)
+                end    
+            end
+            temp_array.sort_by!{|item| item[:name]}
+            #sort temp array alphabetically by item.name
+
+            items.unshift(temp_array).flatten!
+            # then add temp array back to front of items.
+        end
+        fridges_hash
     end
 end

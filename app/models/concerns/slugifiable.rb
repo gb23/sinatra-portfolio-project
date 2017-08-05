@@ -10,7 +10,8 @@ module Slugifiable
         end
 
         def select_by_slug(slug)
-            self.all.select{ |instance| instance.slug == slug }
+binding.pry
+            self.select{ |instance| instance.slug == slug }
         end
     end
 

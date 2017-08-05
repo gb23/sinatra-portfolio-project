@@ -16,14 +16,34 @@
     <th><a href="/items/sort_grams">Weight(grams)</a></th>
     <th> Note</th>
   </tr>
-  <%items.each do |item| %>
+  <% items.each do |item| %>
     <tr>
         <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
         <td><%= item.quantity %></td>
-        <td><%= item.category %></td>
-        <td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
-        <td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
-        <td><%= item.grams %></td>
+        <% if item.category == "**/@@"%>
+          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.category}.size %>)</a></td>
+        <% else %> 
+          <td><%= item.category%></td>
+        <% end %> 
+
+        <% if item.date_sell_by == DateTime.new(1111,11,11)%>
+          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.date_sell_by}.size %>)</a></td>
+        <% else %> 
+          <<td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
+        <% end %> 
+        
+        <% if item.date_expires == DateTime.new(1111,11,11)%>
+          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.date_expires}.size %>)</a></td>
+        <% else %> 
+          <<td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
+        <% end %> 
+        
+        <% if item.grams == 0.0 %>
+          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.grams}.size %>)</a></td>
+        <% else %> 
+          <<td><%= item.grams %></td>
+        <% end %> 
+
         <td> Item Note </td>
     </tr>
   <% end %>
