@@ -8,13 +8,13 @@
   <h2><%= fridge.name %></h2>
   <table>
   <tr>
-    <th>Name</th>
-    <th>Quantity</th>
-    <th>Category</th>
-    <th>Sell By Date</th>
-    <th>Expiration Date</th>
-    <th>Weight(grams)</th>
-    <th>Note</th>
+    <th><a href="/items/sort_name">Name</a></th>
+    <th><a href="/items/sort_quantity">Quantity</a></th>
+    <th><a href="/items/sort_category">Category</a></th>
+    <th><a href="/items/sort_date_sell_by">Sell By Date</a></th>
+    <th><a href="/items/sort_date_expires">Expiration Date</a></th>
+    <th><a href="/items/sort_grams">Weight(grams)</a></th>
+    <th> Note</th>
   </tr>
   <%items.each do |item| %>
     <tr>
