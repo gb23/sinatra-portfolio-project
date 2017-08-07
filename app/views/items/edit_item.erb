@@ -1,7 +1,29 @@
-<h2> Edit Tweet </h2>
+<h2> Edit Item: <%= @item.name %> </h2>
 
-<form method="post" action="/tweets/<%=@tweet.id%>">
+<form method="post" action="/items/<%=@item.id%>">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
-  <input type="text" name="content" value="<%= @tweet.content %>">
+  <%# <label for="name">Name: </label>
+  <input type="text" id=name name="item[attributes][name]" value="<%= @item.name ....%>
+  <label for="fridge??">Fridge: </label>
+  <input type="text" id=fridge name="item[fridge][name]" value="<%= @item.fridge.name %>"> <br>
+  <label for="category">Category: </label>
+  <input type="text" id=category name="item[attributes][category]" value="<%= @item.category %>"><br>
+  <label for="sell_by">Sell By Date: </label>
+  <input type="text" id=sell_by name="item[attributes][date_sell_by]" value="<%= @item.date_sell_by.strftime("%m/%d/%y") if !@item.date_sell_by.nil? %>"><br>
+  <label for="expires">Expiration Date: </label>
+  <input type="text" id=expires name="item[attributes][date_expires]" value="<%= @item.date_expires.strftime("%m/%d/%y") if !@item.date_expires.nil? %>"><br>
+  <label for="grams">Weight(grams): </label>
+  <input type="text" id=grams name="item[attributes][grams]" value="<%= @item.grams %>"><br>
+  <label for="note">Note: </label>
+  <input type="text" id=note name="item[attributes][note]" value="<%= @item.note %>"><br>
   <input type="submit" value="submit">
 </form>
+
+
+
+     <%# #params{   
+            # item => {
+            #     attributes => {name:___, category:___,...,note:_____]
+            #     fridge => {name:____}
+            # }
+     #} %>

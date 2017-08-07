@@ -7,13 +7,13 @@ class ItemsController < ApplicationController
             @duplicate_names = []
             fridges_hash = {}
             fridges_hash = create_and_sort_fridges_hash(@user)
-            @fridges_hash = apply_sort_to_multiple_items(fridges_hash)
+            @fridges_hash = apply_sort_to_duplicate_items(fridges_hash)
             erb :'items/index'
         else
             erb :'users/failure'
         end
     end
-    
+
     get '/items/sort_date_expires' do
         session[:sort_choice] = "date_expires"
         redirect to '/items'
@@ -39,12 +39,74 @@ class ItemsController < ApplicationController
         redirect to '/items'
     end
 
-     get '/items/sort_grams' do
+    get '/items/sort_grams' do
         session[:sort_choice] = "grams"
         redirect to '/items'
     end
 
+    get '/items/:slug' do
+        if logged_in?
+            @user = current_user
+            @items = @user.items.select_by_slug(params[:slug])
+            @item = @user.items.select_by_slug(params[:slug]).first
+            @fridge = @item.fridge
+            erb :'items/show_item'
+        else
+            erb :'users/failure'
+        end 
+    end
+
+    get '/items/:id/edit' do
+          if logged_in?
+            @user = current_user
+            @item = @user.items.find{|item| item.id == params[:id].to_i}
+            erb :'items/edit_item'
+        else
+            erb :'users/failure'
+        end 
+    end
+
+    delete '/items/:id/delete' do 
+        if logged_in?
+            user = current_user
+            item = user.items.find{|item| item.id == params[:id].to_i}
+            item.delete
+            redirect to '/items'
+        else
+            erb :'users/failure'
+        end 
+
+    end
+
+    patch '/items/:id' do
+        if logged_in?
+            @user = current_user
+            @item = @user.items.find{|item| item.id == params[:id].to_i}
+            # @item.name = params[:item][:attributes][:name]
+            @item.category = params[:item][:attributes][:category]
+            @item.category = params[:item][:attributes][:category]
+
+            if !params[:item][:attributes][:date_sell_by].empty?
+                date_array = params[:item][:attributes][:date_sell_by].split("/")
+                @item.date_sell_by = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+            end
+            if !params[:item][:attributes][:date_expires].empty?
+                date_array = params[:item][:attributes][:date_expires].split("/")
+                @item.date_expires = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+            end
+            @item.grams = params[:item][:attributes][:grams]
+            @item.note = params[:item][:attributes][:note]
+            #@item.fridge
+
+            @item.save
+            redirect "/items/#{@item.slug}"
+        else
+            erb :'users/failure'
+        end 
+    end
+
     helpers do
+
         def create_and_sort_fridges_hash(user)
             duplicate_names = []
             fridges_hash = {}
@@ -141,7 +203,7 @@ class ItemsController < ApplicationController
         end
     end
 
-    def apply_sort_to_multiple_items(fridges_hash)
+    def apply_sort_to_duplicate_items(fridges_hash)
         fridges_hash.each do |fridge, items|
             temp_array = []
             #looking at items array: if any items have item.session[:sort_choice] set to "**/@@"

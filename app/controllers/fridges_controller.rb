@@ -1,12 +1,12 @@
 class FridgesController < ApplicationController
   
-  get '/rockets' do
-    if logged_in?
-      erb :'rockets/index'
-    else
-      redirect to '/'
+    patch '/fridges/:slug/edit' do
+      "Ello mate edit"
     end
-  end
+
+    delete '/fridges/:slug/delete' do
+      "Ello mate delete"
+    end
   
   # get '/tweets' do
   #   if logged_in?

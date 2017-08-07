@@ -1,11 +1,43 @@
-WHEN YOU DELETE ITEM (IF THERE IS MORE THAN 1 OF THE ITEMS) BE SURE TO UPDATE THE QUANTITY IN THE ITEMS TABLE
+ <h1><%= @fridge.name %>
+    <form action="/fridges/<%=@fridge.slug%>/edit" method="post">
+      <input id="hidden" type="hidden" name="_method" value="patch">
+      <input type="submit" value="Edit">
+    </form>
+    <form action="/fridges/<%=@fridge.slug%>/delete" method="post">
+      <input id="hidden" type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+    </form>
+  </h1>
 
 
-<p><%= @tweet.content %>
 
-<form method="post" action="/tweets/<%=@tweet.id%>/delete">
-  <input id="hidden" type="hidden" name="_method" value="DELETE">
-  <input type="submit" value="Delete Tweet">
-</form>
 
-<a href="/tweets/<%=@tweet.id%>/edit">Edit Tweet </a>
+
+<% @items.each.with_index(1) do |item, index|%>
+<table>
+  <tr>
+    <h2><%= index %>. <%= item.name %>
+      <form method="post" action="/items/<%=item.id%>/delete">
+        <input id="hidden" type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="Delete Item">
+      </form>  
+      <form method="get" action="/items/<%=item.id%>/edit">
+        <input type="submit" value="Edit Item">     
+      </form>
+    </h2>
+  </tr>
+  <tr><h3>Category: <%= item.category %></h3></tr>
+  <tr><h3>Sell By Date: <%= item.date_sell_by.strftime("%m/%d/%y") if !item.date_sell_by.nil? %></h3></tr>
+  <tr><h3>Expiration Date: <%= item.date_expires.strftime("%m/%d/%y") if !item.date_expires.nil? %></h3></tr>
+  <tr><h3>Weight(grams): <%= item.grams %></h3></tr>
+  <tr><h3>Note: <%= item.note %></h3></tr>
+</table>
+
+
+
+<% end %>
+
+
+  <%# display "Expiration date is in X days/ was X days ago" %>
+  <%# display "Sell by date is in X days/was X days ago" %>
+
