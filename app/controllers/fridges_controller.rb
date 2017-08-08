@@ -26,6 +26,18 @@ class FridgesController < ApplicationController
     end
 
     delete '/fridges/:slug/delete' do
-      "Ello mate delete fridge"
+       if logged_in?
+        @user = current_user
+        @fridge = @user.fridges.select_by_slug(params[:slug]).first
+        name = @fridge.name
+        @fridge.items.each do |item|
+          item.delete
+        end
+        @fridge.delete
+        flash[:message] = "\'#{name}\' and its contents have been deleted."
+        redirect to '/items'
+      else
+        erb :'users/failure'
+      end
     end
 end

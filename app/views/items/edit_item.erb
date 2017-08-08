@@ -2,10 +2,14 @@
 
 <form method="post" action="/items/<%=@item.id%>">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
-  <%# <label for="name">Name: </label>
-  <input type="text" id=name name="item[attributes][name]" value="<%= @item.name ....%>
+  <label for="name">Name: </label>
+  <input type="text" id=name name="item[attributes][name]" value="<%= @item.name %>"><br>
+
   <label for="fridge??">Fridge: </label>
   <input type="text" id=fridge name="item[fridge][name]" value="<%= @item.fridge.name %>"> <br>
+
+
+  
   <label for="category">Category: </label>
   <input type="text" id=category name="item[attributes][category]" value="<%= @item.category %>"><br>
   <label for="sell_by">Sell By Date: </label>

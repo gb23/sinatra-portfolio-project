@@ -49,11 +49,27 @@ class ItemsController < ApplicationController
             @items = @user.items.select_by_slug(params[:slug])
             @item = @user.items.select_by_slug(params[:slug]).first
             @fridge = @item.fridge
+            session[:delete] = false
             erb :'items/show_item'
         else
             erb :'users/failure'
         end 
     end
+
+    get '/items/:slug/confirm_delete' do
+        if logged_in?
+            @user = current_user
+            @items = @user.items.select_by_slug(params[:slug])
+            @item = @user.items.select_by_slug(params[:slug]).first
+            @fridge = @item.fridge
+            session[:delete] = true
+            erb :'items/show_item'
+        else
+            erb :'users/failure'
+        end 
+
+    end
+
 
     get '/items/:id/edit' do
           if logged_in?
@@ -80,9 +96,12 @@ class ItemsController < ApplicationController
 
     patch '/items/:id' do
         if logged_in?
+binding.pry
             @user = current_user
             @item = @user.items.find{|item| item.id == params[:id].to_i}
-            # @item.name = params[:item][:attributes][:name]
+            if !params[:item][:attributes][:name].empty?
+               @item.name = params[:item][:attributes][:name]
+            end
             @item.category = params[:item][:attributes][:category]
             @item.category = params[:item][:attributes][:category]
 
