@@ -1,5 +1,16 @@
 class FridgesController < ApplicationController
   
+    get '/fridges/new' do
+      if logged_in?
+        @user = current_user
+        erb :'fridges/create_fridge'
+      else
+        erb :'users/failure'
+      end
+      
+    end
+  
+  
     get '/fridges/:slug/edit' do
       if logged_in?
         @user = current_user
@@ -9,7 +20,6 @@ class FridgesController < ApplicationController
         erb :'users/failure'
       end
     end
-
 
     patch '/fridges/:slug' do
       if logged_in?
