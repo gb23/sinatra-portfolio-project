@@ -35,6 +35,22 @@ class FridgesController < ApplicationController
       end
     end
 
+    post '/fridges' do
+      if logged_in?
+        @user = current_user
+        fridge = Fridge.new(name: params[:name])
+        if @user.fridges.find {|frdge| frdge.name == fridge.name}
+          flash[:message] = "You already have a fridge named \'#{fridge.name}\'.  To avoid confusion, give it a new name."
+          redirect to '/fridges/new'
+        else
+          @user.fridges << fridge
+          redirect to '/items/new'
+        end
+      else
+        erb :'users/failure'
+      end
+    end
+
     delete '/fridges/:slug/delete' do
        if logged_in?
         @user = current_user

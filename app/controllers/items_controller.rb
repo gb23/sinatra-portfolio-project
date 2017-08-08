@@ -13,6 +13,47 @@ class ItemsController < ApplicationController
         end
     end
 
+    post '/items' do
+          if logged_in?
+            @user = current_user
+            @item = Item.new 
+
+            if !params[:item][:attributes][:name].empty?
+               @item.name = params[:item][:attributes][:name]
+            end
+            @item.fridge = @user.fridges.find_by(name: params[:item][:fridge][:name])
+            @item.category = params[:item][:attributes][:category]
+
+            if !params[:item][:attributes][:date_sell_by].empty?
+                date_array = params[:item][:attributes][:date_sell_by].split("/")
+                @item.date_sell_by = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+            end
+            if !params[:item][:attributes][:date_expires].empty?
+                date_array = params[:item][:attributes][:date_expires].split("/")
+                @item.date_expires = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+            end
+            @item.grams = params[:item][:attributes][:grams]
+            @item.note = params[:item][:attributes][:note]
+           
+            fridge = @user.fridges.find(@item.fridge.id)
+            fridge.items << @item
+
+            flash[:message] = "Successfully Added Item."
+            redirect "/items/#{@item.slug}"
+        else
+            erb :'users/failure'
+        end 
+    end
+
+    get '/items/new' do
+        if logged_in?
+            @user = current_user
+            erb :'items/create_item'
+        else
+            erb :'users/failure'
+        end
+    end
+
     get '/items/sort_date_expires' do
         session[:sort_choice] = "date_expires"
         redirect to '/items'
@@ -69,7 +110,6 @@ class ItemsController < ApplicationController
         end 
 
     end
-
 
     get '/items/:id/edit' do
           if logged_in?

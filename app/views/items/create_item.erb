@@ -1,5 +1,34 @@
-<h2>Add a tweet</h2>
-<form action="/tweets" method="POST">
-  <p>Status: <input type="text" name="content"></p>
-  <input class="btn btn-primary" type="submit" value="submit">
+<h2> Create Item!</h2>
+
+<form method="post" action="/items">
+  <label for="name">Name: </label>
+  <input type="text" id=name name="item[attributes][name]" required><br>
+
+  <label for="fridge">Fridge</label>
+  <select name="item[fridge][name]" id="fridge">
+    <% @user.fridges.each do |fridge| %>
+         <option value="<%= fridge.name %>"><%= fridge.name %></option>
+    <% end %>
+  </select><br>
+
+  <label for="category">Category: </label>
+  <input type="text" id=category name="item[attributes][category]" value="Dessert"><br>
+  <label for="sell_by">Sell By Date: </label>
+  <input type="text" id=sell_by name="item[attributes][date_sell_by]" value="MM/DD/YY"><br>
+  <label for="expires">Expiration Date: </label>
+  <input type="text" id=expires name="item[attributes][date_expires]" value="MM/DD/YY"><br>
+  <label for="grams">Weight(grams): </label>
+  <input type="text" id=grams name="item[attributes][grams]"><br>
+  <label for="note">Note: </label>
+  <input type="text" id=note name="item[attributes][note]"><br>
+  <input type="submit" value="submit">
 </form>
+
+
+
+     <%# #params{   
+            # item => {
+            #     attributes => {name:___, category:___,...,note:_____]
+            #     fridge => {name:____}
+            # }
+     #} %>

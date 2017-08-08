@@ -14,6 +14,7 @@ binding.pry
             #!User.all.find {|usr| usr == user} && 
             #add this back to line above
             session[:user_id] = user.id
+            flash[:message] = "To get your account started, you'll need to create a Fridge and then add at least item to it."
             redirect to '/fridges/new'          
         else
             erb :'users/failure'
