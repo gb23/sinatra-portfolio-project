@@ -15,9 +15,10 @@ class FridgesController < ApplicationController
       if logged_in?
         @user = current_user
         @fridge = @user.fridges.select_by_slug(params[:slug]).first
+        old_name = @fridge.name
         @fridge.name = params[:name]
         @fridge.save
-
+        flash[:message] = "Fridge name \'#{old_name}\' changed to \'#{@fridge.name}\'."
         redirect to '/items'
       else
         erb :'users/failure'

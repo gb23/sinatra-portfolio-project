@@ -9,4 +9,5 @@ ActiveRecord::Base.establish_connection(
 )
 
 require 'date'
+require 'rack-flash'
 require_all 'app'

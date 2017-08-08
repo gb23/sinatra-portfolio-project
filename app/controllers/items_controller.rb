@@ -70,6 +70,7 @@ class ItemsController < ApplicationController
             user = current_user
             item = user.items.find{|item| item.id == params[:id].to_i}
             item.delete
+            flash[:message] = "Successfully Deleted Item."
             redirect to '/items'
         else
             erb :'users/failure'
@@ -98,6 +99,7 @@ class ItemsController < ApplicationController
             #@item.fridge
 
             @item.save
+            flash[:message] = "Successfully Updated Item."
             redirect "/items/#{@item.slug}"
         else
             erb :'users/failure'
