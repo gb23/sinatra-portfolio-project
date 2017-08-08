@@ -3,13 +3,18 @@
 <form method="post" action="/items/<%=@item.id%>">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
   <label for="name">Name: </label>
-  <input type="text" id=name name="item[attributes][name]" value="<%= @item.name %>"><br>
+  <input type="text" id=name name="item[attributes][name]" value="<%= @item.name %>" required><br>
 
-  <label for="fridge??">Fridge: </label>
-  <input type="text" id=fridge name="item[fridge][name]" value="<%= @item.fridge.name %>"> <br>
+  <label for="fridge">Fridge</label>
+  <select name="item[fridge][name]" id="fridge">
+    <option value="<%= @item.fridge.name %>" selected><%= @item.fridge.name %></option>
+    <% @user.fridges.each do |fridge| %>
+      <% if fridge != @item.fridge %>
+         <option value="<%= fridge.name %>"><%= fridge.name %></option>
+      <% end %>
+    <% end %>
+  </select><br>
 
-
-  
   <label for="category">Category: </label>
   <input type="text" id=category name="item[attributes][category]" value="<%= @item.category %>"><br>
   <label for="sell_by">Sell By Date: </label>

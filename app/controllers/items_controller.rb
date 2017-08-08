@@ -96,13 +96,13 @@ class ItemsController < ApplicationController
 
     patch '/items/:id' do
         if logged_in?
-binding.pry
             @user = current_user
             @item = @user.items.find{|item| item.id == params[:id].to_i}
+
             if !params[:item][:attributes][:name].empty?
                @item.name = params[:item][:attributes][:name]
             end
-            @item.category = params[:item][:attributes][:category]
+            @item.fridge = @user.fridges.find_by(name: params[:item][:fridge][:name])
             @item.category = params[:item][:attributes][:category]
 
             if !params[:item][:attributes][:date_sell_by].empty?
@@ -115,9 +115,9 @@ binding.pry
             end
             @item.grams = params[:item][:attributes][:grams]
             @item.note = params[:item][:attributes][:note]
-            #@item.fridge
-
+           
             @item.save
+
             flash[:message] = "Successfully Updated Item."
             redirect "/items/#{@item.slug}"
         else
