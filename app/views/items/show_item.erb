@@ -1,6 +1,5 @@
  <h1><%= @fridge.name %>
-    <form action="/fridges/<%=@fridge.slug%>/edit" method="post">
-      <input id="hidden" type="hidden" name="_method" value="patch">
+    <form action="/fridges/<%=@fridge.slug%>/edit" method="get">
       <input type="submit" value="Edit">
     </form>
     <form action="/fridges/<%=@fridge.slug%>/delete" method="post">
@@ -9,32 +8,25 @@
     </form>
   </h1>
 
-
-
-
-
 <% @items.each.with_index(1) do |item, index|%>
-<table>
-  <tr>
-    <h2><%= index %>. <%= item.name %>
-      <form method="post" action="/items/<%=item.id%>/delete">
-        <input id="hidden" type="hidden" name="_method" value="DELETE">
-        <input type="submit" value="Delete Item">
-      </form>  
-      <form method="get" action="/items/<%=item.id%>/edit">
-        <input type="submit" value="Edit Item">     
-      </form>
-    </h2>
-  </tr>
-  <tr><h3>Category: <%= item.category %></h3></tr>
-  <tr><h3>Sell By Date: <%= item.date_sell_by.strftime("%m/%d/%y") if !item.date_sell_by.nil? %></h3></tr>
-  <tr><h3>Expiration Date: <%= item.date_expires.strftime("%m/%d/%y") if !item.date_expires.nil? %></h3></tr>
-  <tr><h3>Weight(grams): <%= item.grams %></h3></tr>
-  <tr><h3>Note: <%= item.note %></h3></tr>
-</table>
-
-
-
+  <table>
+    <tr>
+      <h2><%= index %>. <%= item.name %>
+        <form method="post" action="/items/<%=item.id%>/delete">
+          <input id="hidden" type="hidden" name="_method" value="DELETE">
+          <input type="submit" value="Delete Item">
+        </form>  
+        <form method="get" action="/items/<%=item.id%>/edit">
+          <input type="submit" value="Edit Item">     
+        </form>
+      </h2>
+    </tr>
+    <tr><h3>Category: <%= item.category %></h3></tr>
+    <tr><h3>Sell By Date: <%= item.date_sell_by.strftime("%m/%d/%y") if !item.date_sell_by.nil? %></h3></tr>
+    <tr><h3>Expiration Date: <%= item.date_expires.strftime("%m/%d/%y") if !item.date_expires.nil? %></h3></tr>
+    <tr><h3>Weight(grams): <%= item.grams %></h3></tr>
+    <tr><h3>Note: <%= item.note %></h3></tr>
+  </table>
 <% end %>
 
 

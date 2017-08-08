@@ -1,16 +1,13 @@
 <% @fridges_hash.each do |fridge, items| %>
   <h2><%= fridge.name %>
-    <form action="/fridges/<%=fridge.slug%>/edit" method="post">
-      <input id="hidden" type="hidden" name="_method" value="patch">
+    <form action="/fridges/<%=fridge.slug%>/edit" method="get">
       <input type="submit" value="Edit">
     </form>
-    <form action="/fridges/<%=fridge.slug%>/delete" method="post">
+      <form action="/fridges/<%=fridge.slug %>/delete" method="post">
       <input id="hidden" type="hidden" name="_method" value="delete">
-      <input type="submit" value="Delete">
+      <input type="submit" value="Ignore">
     </form>
   </h2>
-
-  
 
   <table>
   <tr>
