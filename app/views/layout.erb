@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sinatra Fridge Inventory</title>
+  </head>
+
+  <body>
+    <% if flash.has?(:message) %>
+        <%= flash[:message] %>
+    <% end %>
+    <%= yield %>
+    <a href="/">View All Items</a>
+  </body>
+</html>
