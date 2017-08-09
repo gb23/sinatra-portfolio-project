@@ -12,7 +12,17 @@ password
 <% if !find_and_display_sharers(@user).empty? %>
     <h2>Unlink An Account?</h2>
     <p>Have account owner of account to unlink provide username and password. WARNING: This account will LOSE ACCESS to shared fridgea and all its items!</p>
-    <form action=""></form>
+    <form action="/users/<%= @user.slug %>/unlink" method="post">
+        <input id="hidden" type="hidden" name="_method" value="PATCH">
+
+        <label for="name">Username:</label>
+        <input type="text" name="name" id="name"> <br>
+        
+        <label for="password">Password:</label>
+        <input type="text" name="password" id="password"><br>
+        
+        <input type="submit" value="Unlink Account">
+    </form>
 <% end %>
 
 <h2>Link Another Account?</h2>
@@ -33,7 +43,18 @@ password
 
 <h2>Delete Account</h2>
 WARNING: This cannot be undone.  Access to all fridges and items will be lost.
+<form action="/users/<%= @user.slug %>/link" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
 
+  <label for="name">Username:</label>
+  <input type="text" name="name" id="name"> <br>
+  
+  <label for="password">Password:</label>
+  <input type="text" name="password" id="password"><br>
+  
+  <input type="submit" value="Delete Account">
+
+</form>
 
 
 

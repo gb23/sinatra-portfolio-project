@@ -33,8 +33,24 @@ class UsersController < ApplicationController
             user_to_link = User.find_by(username: params[:name])
             if user_to_link && user_to_link.authenticate(params[:password])
                 link_account(user_to_link, @user)
-                flash[:message] = "User \'#{user_to_link}\'' has been linked to your account's fridges."
-                redirect to '/users/#{@user.slug}'
+                flash[:message] = "User \'#{user_to_link.username}\' has been linked to your account."
+                erb :'users/show_user'
+            else
+                erb :'users/failure'
+            end
+        else
+            erb :'users/failure'
+        end
+    end
+
+    patch '/users/:slug/unlink' do
+        if logged_in?
+            @user = User.select_by_slug(params[:slug]).first
+            user_to_unlink = User.find_by(username: params[:name])
+            if user_to_unlink && user_to_unlink.authenticate(params[:password])
+                unlink_account(user_to_unlink, @user)
+                flash[:message] = "User \'#{user_to_unlink.username}\' has been unlinked from your account."
+                erb :'users/show_user'
             else
                 erb :'users/failure'
             end
@@ -65,6 +81,20 @@ class UsersController < ApplicationController
         else
             erb :'users/failure'
         end
+    end
+
+    delete '/users/:slug/delete' do
+       if logged_in?
+        @user = current_user
+        user = User.find_by(username: params[:name])
+        if user && user.authenticate(params[:password]) && user == @user
+            session.clear
+            @user.delete
+            redirect to '/'
+        end
+      else
+        erb :'users/failure'
+      end
     end
 
     helpers do
@@ -111,6 +141,12 @@ class UsersController < ApplicationController
         def link_account(user_to_link, user)
             user.fridges.all.each do |fridge|
                 fridge.users << user_to_link
+            end
+        end
+
+        def unlink_account(user_to_unlink, user)
+            user.fridges.all.each do |fridge|
+                fridge.users.delete(user_to_unlink)
             end
         end
     end
