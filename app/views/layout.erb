@@ -7,7 +7,6 @@
   <body>
     <header>
       <% if logged_in? %>
-<% binding.pry %>
         <a href="/fridges/new">Add Fridge</a>
         <a href="/items/new">Add Item</a>
         <a href="/users/<%= current_user.slug %>">My Account</a> 
@@ -15,13 +14,14 @@
       <% end %>
     
     </header>
-
-
     <% if flash.has?(:message) %>
         <%= flash[:message] %>
     <% end %>
     <%= yield %>
-    <br></br>
-    <a href="/items">View All Items</a>
+    
+  <% if logged_in? %>
+      <br></br>
+      <a href="/items">View All Items</a>
+  <% end %>
   </body>
 </html>
