@@ -19,8 +19,29 @@ class UsersController < ApplicationController
     end
 
     get '/users/:slug' do
-        @user = User.select_by_slug(params[:slug]).first
-        erb :'users/show_user'
+        if logged_in?
+            @user = User.select_by_slug(params[:slug]).first
+            erb :'users/show_user'
+        else
+            erb :'users/failure'
+        end
+    end
+
+    patch '/users/:slug/link' do
+        if logged_in?
+            @user = User.select_by_slug(params[:slug]).first
+            user_to_link = User.find_by(username: params[:name])
+            if user_to_link && user_to_link.authenticate(params[:password])
+                link_account(user_to_link, @user)
+                flash[:message] = "User \'#{user_to_link}\'' has been linked to your account's fridges."
+                redirect to '/users/#{@user.slug}'
+            else
+                erb :'users/failure'
+            end
+        else
+            erb :'users/failure'
+        end
+
     end
 
     post '/users/create_user' do
@@ -86,7 +107,11 @@ class UsersController < ApplicationController
             end
             display_string
         end
-    end
 
-  
+        def link_account(user_to_link, user)
+            user.fridges.all.each do |fridge|
+                fridge.users << user_to_link
+            end
+        end
+    end
 end
