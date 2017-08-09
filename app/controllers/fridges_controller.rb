@@ -61,7 +61,7 @@ class FridgesController < ApplicationController
         end
         @fridge.delete
         flash[:message] = "\'#{name}\' and its contents have been deleted."
-        redirect to '/items'
+        redirect to "/users/#{@user.slug}"
       else
         erb :'users/failure'
       end

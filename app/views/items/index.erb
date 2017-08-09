@@ -1,9 +1,5 @@
 <% @fridges_hash.each do |fridge, items| %>
-  <h2><%= fridge.name %>
-    <form action="/items/<%=items.first.slug%>" method="get">
-      <input type="submit" value="Change">
-    </form>
-  </h2>
+  <h2><%= fridge.name %></h2>
 
   <table>
   <tr>

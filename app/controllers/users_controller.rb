@@ -83,8 +83,6 @@ class UsersController < ApplicationController
                 flash[:message] = "Password has not been updated. Make sure original password is valid."
                 erb :'users/show_user'
             end
-
-            
         else
             erb :'users/failure'
         end
@@ -127,9 +125,8 @@ class UsersController < ApplicationController
 
     post '/users/create_user' do
         user = User.new(username: params[:name], password: params[:password], first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
-        if user.save  #only true if user has typed in password.  If blank, won't be true
-            #!User.all.find {|usr| usr == user} && 
-            #add this back to line above
+        if !User.all.find {|usr| usr == user} && user.save  #only true if user has typed in password.  If blank, won't be true
+
             session[:user_id] = user.id
             flash[:message] = "To get your account started, you'll need to create a Fridge and then add at least item to it."
             redirect to '/fridges/new'          

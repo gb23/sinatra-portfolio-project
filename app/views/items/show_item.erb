@@ -1,24 +1,5 @@
  <h1><%= @fridge.name %>  </h1>
-    <form action="/fridges/<%=@fridge.slug%>/edit" method="get">
-      <input type="submit" value="Edit">
-    </form>
-
-    <% if session[:delete] == false || session[:delete].nil? %>
-      <form action='/items/<%= @item.slug %>/confirm_delete' method="get">
-        <input type="submit" value="Delete">
-      </form>
-
-    <% elsif session[:delete] == true %>
-      <form action="/fridges/<%=@fridge.slug%>/delete" method="post">
-         <% session[:delete] = false %>
-        <input id="hidden" type="hidden" name="_method" value="delete">
-        Note: Deleting this fridge will delete all items contained within! <br>
-
-        <input type="submit" value="Confirm Delete">
-      </form>
-    <% end %>
-
-
+   
 <% @items.each.with_index(1) do |item, index|%>
   <table>
     <tr>

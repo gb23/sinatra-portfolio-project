@@ -96,30 +96,15 @@ class ItemsController < ApplicationController
     get '/items/:slug' do
         if logged_in?
             @user = current_user
-
             @items = @user.items.select_by_slug(params[:slug])
             @item = @user.items.select_by_slug(params[:slug]).first
             @fridge = @item.fridge
-            session[:delete] = false
             erb :'items/show_item'
         else
             erb :'users/failure'
         end 
     end
 
-    get '/items/:slug/confirm_delete' do
-        if logged_in?
-            @user = current_user
-            @items = @user.items.select_by_slug(params[:slug])
-            @item = @user.items.select_by_slug(params[:slug]).first
-            @fridge = @item.fridge
-            session[:delete] = true
-            erb :'items/show_item'
-        else
-            erb :'users/failure'
-        end 
-
-    end
 
     get '/items/:id/edit' do
           if logged_in?

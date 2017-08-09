@@ -36,12 +36,19 @@
         <input type="submit" value="Update Password">
     </form>
 
-
-
-         
-      
-
-<h2>Fridges</h2>
+<h1>Fridges</h1>
+<% @user.fridges.each do |fridge| %>
+    <h3><%= fridge.name %>  </h3>
+    <form action="/fridges/<%= fridge.slug %>/edit" method="get">
+      <input type="submit" value="Edit">
+    </form>
+    <form action="/fridges/<%= fridge.slug %>/delete" method="post">
+        <input id="hidden" type="hidden" name="_method" value="delete">
+        <p> Warning: Deleting this fridge will delete all items contained within! </p><br>
+        <input type="submit" value="Delete">
+    </form>
+  
+<% end %>
 
 <%= find_and_display_sharers(@user) %>
 
