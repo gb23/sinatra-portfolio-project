@@ -41,9 +41,10 @@ password
 
 </form>
 
-<h2>Delete Account</h2>
-WARNING: This cannot be undone.  Access to all fridges and items will be lost.
-<form action="/users/<%= @user.slug %>/link" method="post">
+<h2>Delete My Account</h2>
+<p>WARNING: This cannot be undone.  Access to all fridges and items will be lost. <br>
+Re-enter your username and password to verify:</p>
+<form action="/users/<%= @user.slug %>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
 
   <label for="name">Username:</label>

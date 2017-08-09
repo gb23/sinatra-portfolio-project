@@ -91,6 +91,8 @@ class UsersController < ApplicationController
             session.clear
             @user.delete
             redirect to '/'
+        else
+            "This is not you account information.  Cannot delete other accounts."
         end
       else
         erb :'users/failure'
