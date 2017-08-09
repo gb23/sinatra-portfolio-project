@@ -31,7 +31,8 @@ class UsersController < ApplicationController
         if logged_in?
             @user = User.select_by_slug(params[:slug]).first
             if params[:fname].empty? || params[:lname].empty? || params[:name].empty? || params[:email].empty?
-              erb :'users/failure'
+              flash[:message] = "Account information not updated.  Textboxes cannot be made blank."
+              erb :'users/show_user'
             else
                 change_count = 0
                 if params[:fname] != @user.first_name
@@ -40,7 +41,7 @@ class UsersController < ApplicationController
                 end
                 if params[:lname] != @user.last_name
                     change_count += 1
-                    @user.lasst_name = params[:lname]
+                    @user.last_name = params[:lname]
                 end
                 if params[:name] != @user.username
                     change_count += 1
@@ -54,9 +55,12 @@ class UsersController < ApplicationController
                 if change_count > 0
                     @user.save
                     flash[:message] = "Account information has been updated!"
+                else 
+                    flash[:message] = "No account information to update."
                 end
 
                 erb :'users/show_user'
+            end
         else
             erb :'users/failure'
         end
@@ -65,10 +69,22 @@ class UsersController < ApplicationController
     patch '/users/:slug/password' do
         if logged_in?
             @user = User.select_by_slug(params[:slug]).first
-            
+            if @user && @user.authenticate(params[:password_old])
+                if params[:password1] == params[:password2] && !params[:password2].empty?
+                    @user.password = params[:password1]
+                    @user.save
+                    flash[:message] = "Password has been updated!"
+                    erb :'users/show_user'
+                else
+                    flash[:message] = "Password has not been updated. Try again."
+                    erb :'users/show_user'
+                end
+            else
+                flash[:message] = "Password has not been updated. Make sure original password is valid."
+                erb :'users/show_user'
+            end
 
-            flash[:message] = "Password has been updated!"
-            erb :'users/show_user'
+            
         else
             erb :'users/failure'
         end
@@ -83,6 +99,7 @@ class UsersController < ApplicationController
                 flash[:message] = "User \'#{user_to_link.username}\' has been linked to your account."
                 erb :'users/show_user'
             else
+                flash[:message] = "Unable to link account.  Verify correct username and password."
                 erb :'users/failure'
             end
         else
@@ -99,6 +116,7 @@ class UsersController < ApplicationController
                 flash[:message] = "User \'#{user_to_unlink.username}\' has been unlinked from your account."
                 erb :'users/show_user'
             else
+                flash[:message] = "Unable to unlink account.  Verify correct username and password."
                 erb :'users/failure'
             end
         else
@@ -139,7 +157,8 @@ class UsersController < ApplicationController
             @user.delete
             redirect to '/'
         else
-            "This is not you account information.  Cannot delete other accounts."
+            flash[:message] = "This is not your correct account information.  Cannot delete other accounts."
+            erb :'users/show_user'
         end
       else
         erb :'users/failure'
