@@ -46,5 +46,47 @@ class UsersController < ApplicationController
         end
     end
 
+    helpers do
+        def find_and_display_sharers(user)
+            shared_hash = {}
+            user.fridges.each do |fridge|
+                shared_hash[fridge] = []
+                fridge.users.each do |user|
+                    shared_hash[fridge] << user
+                end
+            end
+            shared_hash = eliminate_self(shared_hash, user)
+            display_shared(shared_hash)
+        end
+
+        def eliminate_self(shared_hash, user)
+            shared_hash.each do |fridge, usrs|    
+                usrs.each do |usr|
+                    if usr == user
+                        shared_hash[fridge].delete(usr)
+                    end
+                end
+            end
+        end
+
+        def display_shared(shared_hash)
+            display_string = ""
+            shared_hash.each do |fridge, users|
+                if !users.empty?
+                    if shared_hash.first[0] == fridge
+                        display_string = "<h2> Shared Accounts: </h2> "
+                    end
+                    display_string += "<h3> Fridge \'#{fridge.name}\' shared with:"
+                    users.each do |user|
+                        display_string+= " #{user.username}"
+                        display_string+= "," if users.last != user
+                    end
+                    display_string += " </h3> "
+                end
+            end
+            display_string
+        end
+    end
+
   
 end
