@@ -3,8 +3,21 @@ class UsersController < ApplicationController
         erb :'users/login'
     end
 
+    get '/users/:slug' do
+        @user = User.select_by_slug(params[:slug]).first
+        erb :'users/show_user'
+    end
+
     get '/users/create_user' do
         erb :'users/create_user'
+    end
+
+    get '/logout' do
+        if logged_in?
+            session.destroy
+            redirect to 'users/login'
+        else
+            redirect to '/'
     end
 
     post '/users/create_user' do
