@@ -15,31 +15,40 @@ class ItemsController < ApplicationController
 
     post '/items' do
           if logged_in?
-            @user = current_user
-            @item = Item.new 
-
+            @user = current_user      
+          attribute_hash = {}
+            # <%# #params{   
+            # item => {
+            #     attributes => {name:___, category:___,...,note:_____]
+            #     fridge => {name:____}
+            # }
+     #} %>
             if !params[:item][:attributes][:name].empty?
-               @item.name = params[:item][:attributes][:name]
+               attribute_hash[:name] = params[:item][:attributes][:name]
             end
-            @item.fridge = @user.fridges.find_by(name: params[:item][:fridge][:name])
-            @item.category = params[:item][:attributes][:category]
+            attribute_hash[:fridge] = @user.fridges.find_by(name: params[:item][:fridge][:name])
+            attribute_hash[:category] = params[:item][:attributes][:category]
 
             if !params[:item][:attributes][:date_sell_by].empty?
                 date_array = params[:item][:attributes][:date_sell_by].split("/")
-                @item.date_sell_by = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                attribute_hash[:date_sell_by] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
             end
             if !params[:item][:attributes][:date_expires].empty?
                 date_array = params[:item][:attributes][:date_expires].split("/")
-                @item.date_expires = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                attribute_hash[:date_expires] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
             end
-            @item.grams = params[:item][:attributes][:grams]
-            @item.note = params[:item][:attributes][:note]
+            attribute_hash[:grams] = params[:item][:attributes][:grams]
+            attribute_hash[:note] = params[:item][:attributes][:note]
+            attribute_hash[:quantity] = params[:item][:attributes][:quantity]
            
-            fridge = @user.fridges.find(@item.fridge.id)
-            fridge.items << @item
+            fridge = @user.fridges.find(attribute_hash[:fridge].id)
+            #must be integer...
+            attribute_hash[:quantity].to_f.ceil.times do
+               fridge.items.create(attribute_hash)
+            end
 
             flash[:message] = "Successfully Added Item."
-            redirect "/items/#{@item.slug}"
+            redirect to "/items/#{fridge.items.last.slug}"
         else
             erb :'users/failure'
         end 
@@ -87,6 +96,7 @@ class ItemsController < ApplicationController
     get '/items/:slug' do
         if logged_in?
             @user = current_user
+
             @items = @user.items.select_by_slug(params[:slug])
             @item = @user.items.select_by_slug(params[:slug]).first
             @fridge = @item.fridge
@@ -138,7 +148,7 @@ class ItemsController < ApplicationController
         if logged_in?
             @user = current_user
             @item = @user.items.find{|item| item.id == params[:id].to_i}
-
+            original_quantity = @item.quantity
             if !params[:item][:attributes][:name].empty?
                @item.name = params[:item][:attributes][:name]
             end
@@ -153,11 +163,31 @@ class ItemsController < ApplicationController
                 date_array = params[:item][:attributes][:date_expires].split("/")
                 @item.date_expires = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
             end
+            @item.quantity = params[:item][:attributes][:quantity]
             @item.grams = params[:item][:attributes][:grams]
             @item.note = params[:item][:attributes][:note]
-           
-            @item.save
-
+        
+            fridge = @item.fridge
+            if @item.quantity > original_quantity
+               amount_added = (@item.quantity - original_quantity)
+               amount_added.ceil.times do
+               fridge.items.create(name: @item.name, fridge: @item.fridge, category: @item.category, 
+               date_sell_by: @item.date_sell_by, date_expires: @item.date_expires, quantity: @item.quantity,
+               grams: @item.grams, note: @item.note)
+            end
+            elsif @item.quantity < original_quantity
+                amount_subtracted = original_quantity - @item.quantity
+                amount_subtracted.ceil.times do 
+                  fridge.items.last.delete
+                end
+            end
+#update quantity in db for ALL items, not just the new one
+            @user.items.each do |item|
+                if item.name == @item.name
+                    item.quantity = @item.quantity
+                    item.save
+                end
+            end
             flash[:message] = "Successfully Updated Item."
             redirect "/items/#{@item.slug}"
         else
