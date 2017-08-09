@@ -27,6 +27,53 @@ class UsersController < ApplicationController
         end
     end
 
+    patch '/users/:slug' do
+        if logged_in?
+            @user = User.select_by_slug(params[:slug]).first
+            if params[:fname].empty? || params[:lname].empty? || params[:name].empty? || params[:email].empty?
+              erb :'users/failure'
+            else
+                change_count = 0
+                if params[:fname] != @user.first_name
+                    change_count += 1
+                    @user.first_name = params[:fname]
+                end
+                if params[:lname] != @user.last_name
+                    change_count += 1
+                    @user.lasst_name = params[:lname]
+                end
+                if params[:name] != @user.username
+                    change_count += 1
+                    @user.username = params[:name]
+                end
+                if params[:email] != @user.email
+                    change_count += 1
+                    @user.email = params[:email]
+                end
+
+                if change_count > 0
+                    @user.save
+                    flash[:message] = "Account information has been updated!"
+                end
+
+                erb :'users/show_user'
+        else
+            erb :'users/failure'
+        end
+    end
+
+    patch '/users/:slug/password' do
+        if logged_in?
+            @user = User.select_by_slug(params[:slug]).first
+            
+
+            flash[:message] = "Password has been updated!"
+            erb :'users/show_user'
+        else
+            erb :'users/failure'
+        end
+    end
+
     patch '/users/:slug/link' do
         if logged_in?
             @user = User.select_by_slug(params[:slug]).first
