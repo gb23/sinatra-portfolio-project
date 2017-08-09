@@ -38,7 +38,7 @@ class ItemsController < ApplicationController
                 attribute_hash[:date_expires] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
             end
             attribute_hash[:grams] = params[:item][:attributes][:grams]
-            attribute_hash[:note] = params[:item][:attributes][:note]
+            attribute_hash[:note] = params[:item][:attributes][:note] if !params[:item][:attributes][:note].empty?
             attribute_hash[:quantity] = params[:item][:attributes][:quantity]
            
             fridge = @user.fridges.find(attribute_hash[:fridge].id)
