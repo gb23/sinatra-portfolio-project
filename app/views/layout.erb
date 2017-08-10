@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
     <title>Sinatra Fridge Inventory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href = "css/style.css">
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"> </script>
   </head>
 
   <body>
@@ -18,7 +22,7 @@
         <%= flash[:message] %>
     <% end %>
     <%= yield %>
-    
+
   <% if logged_in? %>
       <br></br>
       <a href="/items">View All Items</a>
