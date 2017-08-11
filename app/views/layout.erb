@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Sinatra Fridge Inventory</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <link rel="stylesheet" href = "css/style.css">
+    <link rel="stylesheet" href = "/css/style.css" type="text/css">
+
     <script src ="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   </head>
 
@@ -13,7 +14,7 @@
       <% if logged_in? %>
         <nav id="head">
           <a href="/items">All Items</a>
-          <a href="/fridges/new">Add Fridge</a>
+          <a href="/fridges/new"> Add Fridge</a>
           <a href="/items/new">Add Item</a>
           <a href="/users/<%= current_user.slug %>">My Account</a> 
           <a href="/users/logout">Logout</a>
