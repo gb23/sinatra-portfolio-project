@@ -3,4 +3,27 @@
 
 #head a{ 
     font-family: 'Permanent Marker', cursive;
+    text-decoration: none;
+    margin: 20px;
+    color: #1F9986; 
+}
+
+img[alt="Logo"]{
+    /* height: 200px; */
+    width: auto;
+    position: fixed;
+}
+
+div.nav_wrap {
+    display: block;
+    height: 100px;
+    
+}
+
+#head {
+    position: fixed;
+    top: 0px;
+    right: 20px;
+    margin: 0px 0;
+    
 }
