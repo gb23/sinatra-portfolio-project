@@ -11,27 +11,24 @@
 
   <body>
     <header>
-      <% if logged_in? %>
-      <div class="nav_wrap">
-        <img alt="Logo" src="/images/Fridge_logo.svg">
-        <nav id="head">
-          <a href="/items">All Items</a>
-          <a href="/fridges/new"> Add Fridge</a>
-          <a href="/items/new">Add Item</a>
-          <a href="/users/<%= current_user.slug %>">My Account</a> 
-          <a href="/users/logout">Logout</a>
-        </nav>
-      </div>
-      <% end %>
-    
+      <nav class="wrap">
+        <% if logged_in? %>
+            <a href="/items"><img alt="Logo" src="/images/Fridge_logo.svg"></a>
+            <a href="/items">All Items</a>
+            <a href="/fridges/new"> Add Fridge</a>
+            <a href="/items/new">Add Item</a>
+            <a href="/users/<%= current_user.slug %>">My Account</a> 
+            <a href="/users/logout">Logout</a>
+        <% end %>
+      </nav>
     </header>
     <% if flash.has?(:message) %>
         <%= flash[:message] %>
     <% end %>
-
-
-    <%= yield %>
-    
+  
+    <%# <content class="main_content_wrapper"> %>
+      <%= yield %>
+    <%# </content> %>
  
   </body>
 </html>

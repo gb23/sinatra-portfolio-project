@@ -1,29 +1,82 @@
-@import url('https://fonts.googleapis.com/css?family=Permanent+Marker'); 
-/* font-family: 'Permanent Marker', cursive; */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
-#head a{ 
-    font-family: 'Permanent Marker', cursive;
+/* General Properties */
+*{
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+a:link{
+    color: #4412AA;
+}
+
+a:visited{
+    color: #4412AA;
+}
+a:hover{
+    color: #FF3DFF;
+}
+
+html{
+    margin: 0 0 100px 0;
+}
+/*-----------------*/
+
+/* Layout header with nav links and logo */
+header a{ 
     text-decoration: none;
     margin: 20px;
-    color: #1F9986; 
 }
-
-img[alt="Logo"]{
-    /* height: 200px; */
-    width: auto;
+nav.wrap {
+    height: 25px;
     position: fixed;
+    top: 15px;
+    right: 10px;
 }
-
-div.nav_wrap {
-    display: block;
-    height: 100px;
-    
-}
-
 #head {
     position: fixed;
     top: 0px;
     right: 20px;
     margin: 0px 0;
-    
 }
+img[alt="Logo"]{
+    height: 200px; 
+    width: auto;
+    position: fixed;
+    top: 40px;
+    left: -20px;
+}
+header {
+    height: 40px;
+    width: 100%;
+    background:#20C0E5; 
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+/* ---------------------- */
+
+/* index.html "view items" tables */
+content.table_content{
+    float: right;
+    margin: 100px 40% 0 0;
+}
+
+table{
+    border: dashed;
+}
+
+.table_content h2{
+    margin: 45px 0px 10px 0;
+}
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}
+
+th{
+    background:#20C0E5; 
+}
+/* -------------------------- */
+
+/* show_item.html "item view" */
+
+
