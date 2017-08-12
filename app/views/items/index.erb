@@ -3,18 +3,18 @@
 
   <% @fridges_hash.each do |fridge, items| %>
     <h2><%= fridge.name %></h2>
-    <table>
-    <tr>
-      <th><a href="/items/sort_name">Name</a></th>
-      <th><a href="/items/sort_quantity">Quantity</a></th>
-      <th><a href="/items/sort_category">Category</a></th>
-      <th><a href="/items/sort_date_sell_by">Sell By Date</a></th>
-      <th><a href="/items/sort_date_expires">Expiration Date</a></th>
-      <th><a href="/items/sort_grams">Weight(grams)</a></th>
-      <th> Note</th>
+    <table class="all_items">
+    <tr class="all_items">
+      <th class="all_items"><a href="/items/sort_name">Name</a></th>
+      <th class="all_items"><a href="/items/sort_quantity">Quantity</a></th>
+      <th class="all_items"><a href="/items/sort_category">Category</a></th>
+      <th class="all_items"><a href="/items/sort_date_sell_by">Sell By Date</a></th>
+      <th class="all_items"><a href="/items/sort_date_expires">Expiration Date</a></th>
+      <th class="all_items"><a href="/items/sort_grams">Weight(grams)</a></th>
+      <th class="all_items"> Note</th>
     </tr>
     <% items.each do |item| %>
-      <tr>
+      <tr class="all_items">
           <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
           <td><%= item.quantity %></td>
           <% if item.category == "**/@@"%>

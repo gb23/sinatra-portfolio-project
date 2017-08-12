@@ -1,36 +1,37 @@
-<h2> Edit Item: <%= @item.name %> </h2>
+<section class="show_edit_item">
+<h2> Edit Item: <div class="edit_name"><%= @item.name %> </div></h2>
 
-<form method="post" action="/items/<%=@item.id%>">
-  <input id="hidden" type="hidden" name="_method" value="PATCH">
-  <label for="name">Name: </label>
-  <input type="text" id=name name="item[attributes][name]" value="<%= @item.name %>" required><br>
+  <form method="post" action="/items/<%=@item.id%>">
+    <input id="hidden" type="hidden" name="_method" value="PATCH">
+    <label for="name">Name: </label>
+    <input type="text" id=name name="item[attributes][name]" value="<%= @item.name %>" required><br>
 
-  <label for="quantity">Quantity: </label>
-  <input type="text" id=quantity name="item[attributes][quantity]" value="<%= @item.quantity %>" required><br>
+    <label for="quantity">Quantity: </label>
+    <input type="text" id=quantity name="item[attributes][quantity]" value="<%= @item.quantity %>" required><br>
 
-  <label for="fridge">Fridge</label>
-  <select name="item[fridge][name]" id="fridge">
-    <option value="<%= @item.fridge.name %>" selected><%= @item.fridge.name %></option>
-    <% @user.fridges.each do |fridge| %>
-      <% if fridge != @item.fridge %>
-         <option value="<%= fridge.name %>"><%= fridge.name %></option>
+    <label for="fridge">Fridge</label>
+    <select name="item[fridge][name]" id="fridge">
+      <option value="<%= @item.fridge.name %>" selected><%= @item.fridge.name %></option>
+      <% @user.fridges.each do |fridge| %>
+        <% if fridge != @item.fridge %>
+          <option value="<%= fridge.name %>"><%= fridge.name %></option>
+        <% end %>
       <% end %>
-    <% end %>
-  </select><br>
+    </select><br>
 
-  <label for="category">Category: </label>
-  <input type="text" id=category name="item[attributes][category]" value="<%= @item.category %>"><br>
-  <label for="sell_by">Sell By Date: </label>
-  <input type="text" id=sell_by name="item[attributes][date_sell_by]" value="<%= @item.date_sell_by.strftime("%m/%d/%y") if !@item.date_sell_by.nil? %>"><br>
-  <label for="expires">Expiration Date: </label>
-  <input type="text" id=expires name="item[attributes][date_expires]" value="<%= @item.date_expires.strftime("%m/%d/%y") if !@item.date_expires.nil? %>"><br>
-  <label for="grams">Weight(grams): </label>
-  <input type="text" id=grams name="item[attributes][grams]" value="<%= @item.grams %>"><br>
-  <label for="note">Note: </label>
-  <input type="text" id=note name="item[attributes][note]" value="<%= @item.note %>"><br>
-  <input type="submit" value="submit">
-</form>
-
+    <label for="category">Category: </label>
+    <input type="text" id=category name="item[attributes][category]" value="<%= @item.category %>"><br>
+    <label for="sell_by">Sell By Date: </label>
+    <input type="text" id=sell_by name="item[attributes][date_sell_by]" value="<%= @item.date_sell_by.strftime("%m/%d/%y") if !@item.date_sell_by.nil? %>"><br>
+    <label for="expires">Expiration Date: </label>
+    <input type="text" id=expires name="item[attributes][date_expires]" value="<%= @item.date_expires.strftime("%m/%d/%y") if !@item.date_expires.nil? %>"><br>
+    <label for="grams">Weight(grams): </label>
+    <input type="text" id=grams name="item[attributes][grams]" value="<%= @item.grams %>"><br>
+    <label for="note">Note: </label>
+    <input type="text" id=note name="item[attributes][note]" value="<%= @item.note %>"><br>
+    <input type="submit" class="edit_button" value="Submit">
+  </form>
+</section>
 
 
      <%# #params{   
