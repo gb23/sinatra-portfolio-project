@@ -27,13 +27,13 @@
         <input id="hidden" type="hidden" name="_method" value="PATCH">
 
         <label for="password_old">Old Password:</label>
-        <input type="text" name="password_old" id="password_old"><br>
+        <input type="password" name="password_old" id="password_old"><br>
 
         <label for="password1">New Password:</label>
-        <input type="text" name="password1" id="password1"><br>
+        <input type="password" name="password1" id="password1"><br>
         
         <label for="password2">Verify New Password:</label>
-        <input type="text" name="password2" id="password2"><br>
+        <input type="password" name="password2" id="password2"><br>
         
         <input type="submit" class="show_user_button" value="Update Password">
     </form>
@@ -59,7 +59,8 @@
 
 <% if !find_and_display_sharers(@user).empty? %>
     <h2>Unlink An Associated Account?</h2>
-    <p>Have account owner of account to unlink provide username and password. <warning><strong>Warning<strong></warning>: This account will LOSE ACCESS to any shared fridges and all items within!</p>
+    <p>Have account owner of account to unlink provide username and password.<br> 
+    <warning><strong>Warning<strong></warning>: The account to be unlinked will LOSE ACCESS to any shared fridges and all items within!</p>
     <form class="divider" action="/users/<%= @user.slug %>/unlink" method="post">
         <input id="hidden" type="hidden" name="_method" value="PATCH">
 
@@ -67,7 +68,7 @@
         <input type="text" name="name" id="name"> <br>
         
         <label for="password">Password:</label>
-        <input type="text" name="password" id="password"><br>
+        <input type="password" name="password" id="password"><br>
         
         <input type="submit" class="show_user_button" value="Unlink Account">
     </form>
@@ -83,7 +84,7 @@
   <input type="text" name="name" id="name"> <br>
   
   <label for="password">Password:</label>
-  <input type="text" name="password" id="password"><br>
+  <input type="password" name="password" id="password"><br>
   
   <input type="submit" class="show_user_button" value="Link Account">
 
@@ -99,7 +100,7 @@ Re-enter your username and password to verify:</p>
   <input type="text" name="name" id="name"> <br>
   
   <label for="password">Password:</label>
-  <input type="text" name="password" id="password"><br>
+  <input type="password" name="password" id="password"><br>
   
   <input type="submit" class="show_user_button" value="Delete Account">
 

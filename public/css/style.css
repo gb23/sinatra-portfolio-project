@@ -245,4 +245,11 @@ section.home{
 }
 
 /*-------------*/
+/* failure.erb  user incorrectly inputs account data */
+section.failure{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
 
+/*-------------*/

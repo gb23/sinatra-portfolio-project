@@ -39,7 +39,7 @@ class ItemsController < ApplicationController
             end
             attribute_hash[:grams] = params[:item][:attributes][:grams]
             attribute_hash[:note] = params[:item][:attributes][:note] if !params[:item][:attributes][:note].empty?
-            attribute_hash[:quantity] = params[:item][:attributes][:quantity]
+            attribute_hash[:quantity] = params[:item][:attributes][:quantity].to_i
            
             fridge = @user.fridges.find(attribute_hash[:fridge].id)
             #must be integer...
@@ -148,7 +148,7 @@ class ItemsController < ApplicationController
                 date_array = params[:item][:attributes][:date_expires].split("-")
                 @item.date_expires = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
-            @item.quantity = params[:item][:attributes][:quantity]
+            @item.quantity = params[:item][:attributes][:quantity].to_i
             @item.grams = params[:item][:attributes][:grams]
             @item.note = params[:item][:attributes][:note]
         

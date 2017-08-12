@@ -26,7 +26,7 @@
 
     <input type="date" id=sell_by name="item[attributes][date_sell_by]" value="<%= @item.date_sell_by.year.to_s + "-" + @item.date_sell_by.strftime("%m") + "-" + @item.date_sell_by.strftime("%d") if !@item.date_sell_by.nil? %>"><br> 
     <label for="expires">Expiration Date: </label>
-    <input type="date" id=expires name="item[attributes][date_expires]" value="<%= @item.date_expires.year.to_s + "-" + @item.date_sell_by.strftime("%m") + "-" + @item.date_sell_by.strftime("%d") if !@item.date_expires.nil? %>"><br>
+    <input type="date" id=expires name="item[attributes][date_expires]" value="<%= @item.date_expires.year.to_s + "-" + @item.date_expires.strftime("%m") + "-" + @item.date_expires.strftime("%d") if !@item.date_expires.nil? %>"><br>
     <label for="grams">Weight(grams): </label>
     <input type="text" id=grams name="item[attributes][grams]" value="<%= @item.grams %>"><br>
     <label for="note">Note: </label>

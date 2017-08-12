@@ -154,7 +154,7 @@ class UsersController < ApplicationController
             @user.delete
             redirect to '/'
         else
-            flash[:message] = "This is not your correct account information.  Cannot delete other accounts."
+            flash[:message] = "This is not the current account's correct account information."
             erb :'users/show_user'
         end
       else
