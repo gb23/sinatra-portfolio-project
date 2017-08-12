@@ -24,10 +24,10 @@ class ItemsController < ApplicationController
             # }
      #} %>
             if !params[:item][:attributes][:name].empty?
-               attribute_hash[:name] = params[:item][:attributes][:name]
+               attribute_hash[:name] = normalize_name(params[:item][:attributes][:name])   
             end
             attribute_hash[:fridge] = @user.fridges.find_by(name: params[:item][:fridge][:name])
-            attribute_hash[:category] = params[:item][:attributes][:category]
+            attribute_hash[:category] = normalize_name(params[:item][:attributes][:category])
 
             if !params[:item][:attributes][:date_sell_by].empty?
                 date_array = params[:item][:attributes][:date_sell_by].split("-")
@@ -135,10 +135,10 @@ class ItemsController < ApplicationController
             @item = @user.items.find{|item| item.id == params[:id].to_i}
             original_quantity = @item.quantity
             if !params[:item][:attributes][:name].empty?
-               @item.name = params[:item][:attributes][:name]
+               @item.name = normalize_name(params[:item][:attributes][:name])
             end
             @item.fridge = @user.fridges.find_by(name: params[:item][:fridge][:name])
-            @item.category = params[:item][:attributes][:category]
+            @item.category = normalize_name(params[:item][:attributes][:category])
 
             if !params[:item][:attributes][:date_sell_by].empty?
                 date_array = params[:item][:attributes][:date_sell_by].split("-")
@@ -162,7 +162,7 @@ class ItemsController < ApplicationController
             end
             elsif @item.quantity < original_quantity
                 amount_subtracted = original_quantity - @item.quantity
-                amount_subtracted.ceil.times do 
+                amount_subtracted.times do 
                   fridge.items.last.delete
                 end
             end
