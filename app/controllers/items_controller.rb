@@ -166,7 +166,7 @@ class ItemsController < ApplicationController
                   fridge.items.last.delete
                 end
             end
-#update quantity in db for ALL items, not just the new one
+        #update quantity in db for ALL items, not just the new one
             @user.items.each do |item|
                 if item.name == @item.name
                     item.quantity = @item.quantity
@@ -189,7 +189,9 @@ class ItemsController < ApplicationController
             alphabetical_fridges = user.fridges.order(:name)
             alphabetical_fridges.each do |fridge|
                 fridges_hash[fridge] = []
-                sorted_items = sort_items(fridge)
+
+                sorted_items = sort_items(fridge, user)
+
                 sorted_items.each do |item| 
                     if !duplicate_names.find{|slug| slug == item.slug}
                         item_grouping = user.items.select_by_slug(item.slug)
@@ -240,9 +242,9 @@ class ItemsController < ApplicationController
         end
     end
 
-    def sort_items(fridge)
+    def sort_items(fridge, user)
         if !session[:sort_toggle].nil?
-            if session[:visits] > 0 && session[:visits] < 3
+            if session[:visits] > 0 && session[:visits] < user.fridges.size
                 session[:visits] = session[:visits] + 1
             else
                 session[:sort_toggle] == 0 ? session[:sort_toggle] = 1 : session[:sort_toggle] = 0

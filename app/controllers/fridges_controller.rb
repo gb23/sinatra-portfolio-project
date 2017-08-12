@@ -43,6 +43,11 @@ class FridgesController < ApplicationController
           flash[:message] = "You already have a fridge named \'#{fridge.name}\'.  To avoid confusion, give it a new name."
           redirect to '/fridges/new'
         else
+          #reset sorting parameters
+          session[:visits] = nil
+          session[:sort_toggle] = nil
+          session[:sort_choice] = nil
+          #
           @user.fridges << fridge
           redirect to '/items/new'
         end
@@ -60,6 +65,11 @@ class FridgesController < ApplicationController
           item.delete
         end
         @fridge.delete
+        #reset sorting parameters
+        session[:visits] = nil
+        session[:sort_toggle] = nil
+        session[:sort_choice] = nil
+        #
         flash[:message] = "\'#{name}\' and its contents have been deleted."
         redirect to "/users/#{@user.slug}"
       else
