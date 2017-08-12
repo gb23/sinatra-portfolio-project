@@ -22,10 +22,12 @@
         <% end %>
       </nav>
     </header>
+
+    <flash>
     <% if flash.has?(:message) %>
         <%= flash[:message] %>
     <% end %>
-  
+    </flash>
     <%# <content class="main_content_wrapper"> %>
       <%= yield %>
     <%# </content> %>

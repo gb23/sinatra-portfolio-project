@@ -7,7 +7,7 @@
     <input type="text" id=name name="item[attributes][name]" value="<%= @item.name %>" required><br>
 
     <label for="quantity">Quantity: </label>
-    <input type="text" id=quantity name="item[attributes][quantity]" value="<%= @item.quantity %>" required><br>
+    <input type="number" id=quantity name="item[attributes][quantity]" min="1" max="100" value="<%= @item.quantity %>" required><br>
 
     <label for="fridge">Fridge</label>
     <select name="item[fridge][name]" id="fridge">

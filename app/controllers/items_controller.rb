@@ -43,7 +43,7 @@ class ItemsController < ApplicationController
            
             fridge = @user.fridges.find(attribute_hash[:fridge].id)
             #must be integer...
-            attribute_hash[:quantity].to_f.ceil.times do
+            attribute_hash[:quantity].times do
                fridge.items.create(attribute_hash)
             end
 
@@ -155,7 +155,7 @@ class ItemsController < ApplicationController
             fridge = @item.fridge
             if @item.quantity > original_quantity
                amount_added = (@item.quantity - original_quantity)
-               amount_added.ceil.times do
+               amount_added.times do
                fridge.items.create(name: @item.name, fridge: @item.fridge, category: @item.category, 
                date_sell_by: @item.date_sell_by, date_expires: @item.date_expires, quantity: @item.quantity,
                grams: @item.grams, note: @item.note)

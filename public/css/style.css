@@ -19,6 +19,10 @@ a:hover{
 html{
     margin: 0 0 100px 0;
 }
+
+warning{
+    color: red;
+}
 /*-----------------*/
 
 /* Layout header with nav links and logo */
@@ -52,6 +56,12 @@ header {
     position: fixed;
     top: 0;
     right: 0;
+}
+
+flash {
+    position:fixed;
+    top: 13px;
+    left: 16px;
 }
 /* ---------------------- */
 
@@ -120,6 +130,7 @@ label{
     float: left;
     width: 23%;
     text-align: center;
+    padding: 2px;
 }
 input[type="submit"].edit_button {
     /* display: inline; */
@@ -143,10 +154,95 @@ input[type="submit"].create_fridge_button {
     margin: 20px 0 0 12%;
     padding: 10px;
   }
+/*-------------------------*/
+
+/* create_item.erb "Create Item"  */
+section.create_item{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+section.create_item h2{
+    /* display: inline; */
+    /* float: right; */
+    margin: 0 0 10px 12%;
+}
+input[type="submit"].create_item_button {
+    /* display: inline; */
+    margin: 28px 0 0 15%;
+    padding: 10px;
+  }
 
 
+/*-------------------------*/
+/* show_user.erb "My Account" */
+section.show_user{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
 
+input[type="submit"].show_user_button {
+    /* display: inline; */
+    margin: 20px 0 8px 15%;
+    padding: 1px;
+  }
 
+section.show_user form.divider{
+    border-bottom: dashed;
+}
 
+input[type="submit"].special {
+   display: inline;
+   margin: 0;
+   padding: 2px;
+  }
 
+li h3.fridge_name{
+    display: inline;
+}
+
+li.fridge{
+    display: inline;
+}
+
+section.show_user form.inline{
+    display: inline;
+}
+/*--------------------------*/
+/* edit-fridge */
+section.edit_fridge{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+input[type="submit"].edit_fridge_button {
+    /* display: inline; */
+    margin: 20px 0 8px 15%;
+    padding: 1px;
+  }
+
+section.edit_fridge h2{
+    /* display: inline; */
+    /* float: right; */
+    margin: 0 0 28px 6%;
+}
+/*-------------*/
+/*login.erb  Log in */
+section.log_in{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+/*-------------*/
+/*main index.erb "/" */
+section.home{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+/*-------------*/
 

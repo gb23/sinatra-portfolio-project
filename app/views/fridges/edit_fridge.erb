@@ -1,10 +1,11 @@
-
+<section class="edit_fridge">
 <h2> Edit Fridge: <%= @fridge.name %> </h2>
 
 <form method="post" action="/fridges/<%=@fridge.slug%>">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
   <label for="name">Name: </label>
-  <input type="text" id=name name="name" value="<%= @fridge.name %>"> <br>
+  <input type="text" id=name name="name" value="<%= @fridge.name %>" required > <br>
   
-  <input type="submit" value="Edit">
+  <input class="edit_fridge_button" type="submit" value="Submit">
 </form>
+</section>

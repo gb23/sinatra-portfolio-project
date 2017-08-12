@@ -1,7 +1,7 @@
 require 'date'
 
 u1a = User.create(first_name: "Greg", last_name: "Benjamin", username:"gb23", password: "g", email:"g@gmail.com")
-u1b = User.create(first_name: "Allison", last_name: "Benjamin", username:"asKey", password: "g", email:"askey@gmail.com")
+u1b = User.create(first_name: "Allison", last_name: "Stokke", username:"asKey", password: "g", email:"askey@gmail.com")
 f1 = Fridge.create(name: "kitchen fridge")
 f2 = Fridge.create(name: "garage fridge")
 f3 = Fridge.create(name: "beverage fridge")

@@ -172,6 +172,7 @@ class UsersController < ApplicationController
                 end
             end
             shared_hash = eliminate_self(shared_hash, user)
+            shared_hash = eliminate_duplicates(shared_hash)
             display_shared(shared_hash)
         end
 
@@ -185,21 +186,31 @@ class UsersController < ApplicationController
             end
         end
 
+        def eliminate_duplicates(shared_hash)
+            shared_hash.each do |fridge, usrs|   
+                usrs.uniq!
+            end
+        end
+
         def display_shared(shared_hash)
             display_string = ""
             shared_hash.each do |fridge, users|
                 if !users.empty?
                     if shared_hash.first[0] == fridge
-                        display_string = "<h2> Shared Accounts: </h2> "
+                        display_string = "<ul><h2> Shared Accounts: </h2> "
                     end
-                    display_string += "<h3> Fridge \'#{fridge.name}\' shared with:"
+                    display_string += "<li class=\"fridge\"><h5> Fridge \'#{fridge.name}\' shared with:"
                     users.each do |user|
                         display_string+= " #{user.username}"
                         display_string+= "," if users.last != user
+
                     end
-                    display_string += " </h3> "
+                    display_string += " </h5> </li>"
+               
                 end
             end
+    
+            display_string += "</ul>" if !display_string.empty?
             display_string
         end
 

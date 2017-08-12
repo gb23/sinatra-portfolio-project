@@ -1,8 +1,10 @@
+<section class="show_user">
+
 <h1><%= @user.username %>'s Account</h1>
 
 <h2>Change Account Information</h2>
 <p>Change any of the following information to update account: </p>
-<form action="/users/<%= @user.slug %>" method="post">
+<form class="divider" action="/users/<%= @user.slug %>" method="post">
         <input id="hidden" type="hidden" name="_method" value="PATCH">
 
         <label for="fname">First Name:</label>
@@ -17,11 +19,11 @@
         <label for="email">Email:</label>
         <input type="text" name="email" id="email" value="<%= @user.email %>"><br>
 
-        <input type="submit" value="Update Contact Info">
+        <input type="submit"  class="show_user_button" value="Update Contact Info">
     </form>
 
 <p>Change Password: </p>
-    <form action="/users/<%= @user.slug %>/password" method="post">
+    <form class="divider" action="/users/<%= @user.slug %>/password" method="post">
         <input id="hidden" type="hidden" name="_method" value="PATCH">
 
         <label for="password_old">Old Password:</label>
@@ -33,20 +35,23 @@
         <label for="password2">Verify New Password:</label>
         <input type="text" name="password2" id="password2"><br>
         
-        <input type="submit" value="Update Password">
+        <input type="submit" class="show_user_button" value="Update Password">
     </form>
 
-<h1>Fridges</h1>
+<h1>Fridges:</h1>
 <% @user.fridges.each do |fridge| %>
-    <h3><%= fridge.name %>  </h3>
-    <form action="/fridges/<%= fridge.slug %>/edit" method="get">
-      <input type="submit" value="Edit">
+    <ul>
+    <li class="fridge"><h3 class="fridge_name"><%= fridge.name %>  </h3> </li>
+    <form class="inline" action="/fridges/<%= fridge.slug %>/edit" method="get">
+      <input class="special" type="submit" value="Edit">
     </form>
-    <form action="/fridges/<%= fridge.slug %>/delete" method="post">
+    <form class="inline" action="/fridges/<%= fridge.slug %>/delete" method="post">
         <input id="hidden" type="hidden" name="_method" value="delete">
-        <p> Warning: Deleting this fridge will delete all items contained within! </p><br>
-        <input type="submit" value="Delete">
+        <input class="special" type="submit" value="Delete">
+        <p> <warning><strong>Warning<strong></warning>: Deleting this fridge will delete all items contained within! </p><br>
+
     </form>
+    </ul>
   
 <% end %>
 
@@ -54,8 +59,8 @@
 
 <% if !find_and_display_sharers(@user).empty? %>
     <h2>Unlink An Associated Account?</h2>
-    <p>Have account owner of account to unlink provide username and password. WARNING: This account will LOSE ACCESS to any shared fridges and all items within!</p>
-    <form action="/users/<%= @user.slug %>/unlink" method="post">
+    <p>Have account owner of account to unlink provide username and password. <warning><strong>Warning<strong></warning>: This account will LOSE ACCESS to any shared fridges and all items within!</p>
+    <form class="divider" action="/users/<%= @user.slug %>/unlink" method="post">
         <input id="hidden" type="hidden" name="_method" value="PATCH">
 
         <label for="name">Username:</label>
@@ -64,14 +69,14 @@
         <label for="password">Password:</label>
         <input type="text" name="password" id="password"><br>
         
-        <input type="submit" value="Unlink Account">
+        <input type="submit" class="show_user_button" value="Unlink Account">
     </form>
 <% end %>
 
 <h2>Link Another Account?</h2>
 <p>Have account owner of account to link provide username and password:</p>
 
-<form action="/users/<%= @user.slug %>/link" method="post">
+<form class="divider" action="/users/<%= @user.slug %>/link" method="post">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
 
   <label for="name">Username:</label>
@@ -80,14 +85,14 @@
   <label for="password">Password:</label>
   <input type="text" name="password" id="password"><br>
   
-  <input type="submit" value="Link Account">
+  <input type="submit" class="show_user_button" value="Link Account">
 
 </form>
 
 <h2>Delete My Account</h2>
-<p>WARNING: This cannot be undone.  Access to all fridges and items will be lost. <br>
+<p><warning><strong>Warning<strong></warning>: This cannot be undone.  Access to all fridges and items will be lost. <br>
 Re-enter your username and password to verify:</p>
-<form action="/users/<%= @user.slug %>/delete" method="post">
+<form class="divider" action="/users/<%= @user.slug %>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
 
   <label for="name">Username:</label>
@@ -96,10 +101,10 @@ Re-enter your username and password to verify:</p>
   <label for="password">Password:</label>
   <input type="text" name="password" id="password"><br>
   
-  <input type="submit" value="Delete Account">
+  <input type="submit" class="show_user_button" value="Delete Account">
 
 </form>
-
+</section>
 
 
 
