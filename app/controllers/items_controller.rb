@@ -30,12 +30,12 @@ class ItemsController < ApplicationController
             attribute_hash[:category] = params[:item][:attributes][:category]
 
             if !params[:item][:attributes][:date_sell_by].empty?
-                date_array = params[:item][:attributes][:date_sell_by].split("/")
-                attribute_hash[:date_sell_by] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_sell_by].split("-")
+                attribute_hash[:date_sell_by] = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             if !params[:item][:attributes][:date_expires].empty?
-                date_array = params[:item][:attributes][:date_expires].split("/")
-                attribute_hash[:date_expires] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_expires].split("-")
+                attribute_hash[:date_expires] = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             attribute_hash[:grams] = params[:item][:attributes][:grams]
             attribute_hash[:note] = params[:item][:attributes][:note] if !params[:item][:attributes][:note].empty?
@@ -141,12 +141,12 @@ class ItemsController < ApplicationController
             @item.category = params[:item][:attributes][:category]
 
             if !params[:item][:attributes][:date_sell_by].empty?
-                date_array = params[:item][:attributes][:date_sell_by].split("/")
-                @item.date_sell_by = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_sell_by].split("-")
+                @item.date_sell_by = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             if !params[:item][:attributes][:date_expires].empty?
-                date_array = params[:item][:attributes][:date_expires].split("/")
-                @item.date_expires = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_expires].split("-")
+                @item.date_expires = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             @item.quantity = params[:item][:attributes][:quantity]
             @item.grams = params[:item][:attributes][:grams]
