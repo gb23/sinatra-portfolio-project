@@ -245,6 +245,23 @@ section.home{
 }
 
 /*-------------*/
+
+
+
+/*create_user.erb  create user */
+section.create_user{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+input[type="submit"].create_user_button {
+    /* display: inline; */
+    margin: 28px 0 0 15%;
+    padding: 10px;
+  }
+/*-------------*/
+
+
 /* failure.erb  user incorrectly inputs account data */
 section.failure{
     /* display: inline; */
@@ -252,4 +269,9 @@ section.failure{
     margin: 100px 0 0 12%;
 }
 
+img[alt="Unhappy Logo"]{
+    position: fixed;
+    top: 61px;
+    left: 539px;
+}
 /*-------------*/
