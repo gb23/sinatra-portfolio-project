@@ -16,9 +16,9 @@ a:hover{
     color: #FF3DFF;
 }
 
-/* html{
+html{
     margin: 0 0 100px 0;
-} */
+} 
 
 warning{
     color: red;
@@ -122,6 +122,10 @@ flash {
 content.table_content{
     float: right;
     margin: 100px 40% 0 0;
+    
+}
+content.table_content h1{
+    margin: 2.67em 0;
 }
 
 table.all_items{
@@ -218,6 +222,12 @@ label{
     width: 23%;
     text-align: center;
     padding: 2px;
+}
+label.sell_by{
+    height: 23px;
+}
+label.expires{
+    height: 23px;
 }
 input[type="submit"].edit_button {
     /* display: inline; */
@@ -347,9 +357,7 @@ section.home{
     section.home{
         margin: 100px 45px 0 12%;
     }
-
 }
-
 /*-------------*/
 
 

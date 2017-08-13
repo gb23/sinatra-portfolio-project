@@ -216,7 +216,7 @@ class UsersController < ApplicationController
 
         def link_account(user_to_link, user)
             user.fridges.all.each do |fridge|
-                fridge.users << user_to_link
+                fridge.users << user_to_link if !fridge.users.detect { |user| user == user_to_link }
             end
         end
 

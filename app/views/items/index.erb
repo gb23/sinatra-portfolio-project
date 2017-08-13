@@ -1,5 +1,5 @@
 <content class="table_content">
-
+<h1><%= @user.username%>'s Inventory</h1>
 
   <% @fridges_hash.each do |fridge, items| %>
     <h2><%= fridge.name %></h2>
@@ -10,7 +10,7 @@
       <th class="all_items category"><a href="/items/sort_category">Category</a></th>
       <th class="all_items"><a href="/items/sort_date_sell_by">Sell By Date</a></th>
       <th class="all_items"><a href="/items/sort_date_expires">Expiration Date</a></th>
-      <th class="all_items grams"><a href="/items/sort_grams">Weight(grams)</a></th>
+      <th class="all_items grams"><a href="/items/sort_grams">Amount(grams)</a></th>
       <th class="all_items"> Note</th>
     </tr>
     <% items.each do |item| %>
@@ -40,7 +40,7 @@
           <% else %> 
             <td class="grams"><%= item.grams %></td>
           <% end %> 
-          <% if item.note != nil %>
+          <% if item.note != nil && !item.note.empty? %>
             <td><a href="/items/<%= item.slug %>">*</a></td>
           <% else%>
             <td><a href="/items/<%= item.slug %>">&nbsp;</a></td>
