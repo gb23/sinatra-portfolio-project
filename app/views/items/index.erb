@@ -7,10 +7,10 @@
     <tr class="all_items">
       <th class="all_items"><a href="/items/sort_name">Name</a></th>
       <th class="all_items"><a href="/items/sort_quantity">Quantity</a></th>
-      <th class="all_items"><a href="/items/sort_category">Category</a></th>
+      <th class="all_items category"><a href="/items/sort_category">Category</a></th>
       <th class="all_items"><a href="/items/sort_date_sell_by">Sell By Date</a></th>
       <th class="all_items"><a href="/items/sort_date_expires">Expiration Date</a></th>
-      <th class="all_items"><a href="/items/sort_grams">Weight(grams)</a></th>
+      <th class="all_items grams"><a href="/items/sort_grams">Weight(grams)</a></th>
       <th class="all_items"> Note</th>
     </tr>
     <% items.each do |item| %>
@@ -18,9 +18,9 @@
           <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
           <td><%= item.quantity %></td>
           <% if item.category == "**/@@"%>
-            <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.category}.size %>)</a></td>
+            <td class="category"><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.category}.size %>)</a></td>
           <% else %> 
-            <td><%= item.category%></td>
+            <td class="category"><%= item.category%></td>
           <% end %> 
 
           <% if item.date_sell_by == DateTime.new(1111,11,11)%>
@@ -36,9 +36,9 @@
           <% end %> 
           
           <% if item.grams == 0.0 %>
-            <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.grams}.size %>)</a></td>
+            <td class="grams"><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.grams}.size %>)</a></td>
           <% else %> 
-            <td><%= item.grams %></td>
+            <td class="grams"><%= item.grams %></td>
           <% end %> 
           <% if item.note != nil %>
             <td><a href="/items/<%= item.slug %>">*</a></td>
