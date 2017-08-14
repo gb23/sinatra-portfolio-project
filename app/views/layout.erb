@@ -27,11 +27,9 @@
     <% if flash.has?(:message) %>
         <%= flash[:message] %>
     <% end %>
-    <%= yield %>
+    </flash>
 
-  <% if logged_in? %>
-      <br></br>
-      <a href="/items">View All Items</a>
-  <% end %>
+     <%= yield %>
+
   </body>
 </html>
