@@ -1,1 +1,6 @@
-# Sinatra Launch Manifest
+# Sinatra Fridge Inventory
+
+todo:
+
+
+add graphics

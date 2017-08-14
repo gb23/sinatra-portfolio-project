@@ -1,47 +1,52 @@
-<% @fridges_hash.each do |fridge, items| %>
-  <h2><%= fridge.name %></h2>
+<content class="table_content">
+<h1><%= @user.username%>'s Inventory</h1>
 
-  <table>
-  <tr>
-    <th><a href="/items/sort_name">Name</a></th>
-    <th><a href="/items/sort_quantity">Quantity</a></th>
-    <th><a href="/items/sort_category">Category</a></th>
-    <th><a href="/items/sort_date_sell_by">Sell By Date</a></th>
-    <th><a href="/items/sort_date_expires">Expiration Date</a></th>
-    <th><a href="/items/sort_grams">Weight(grams)</a></th>
-    <th> Note</th>
-  </tr>
-  <% items.each do |item| %>
-    <tr>
-        <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
-        <td><%= item.quantity %></td>
-        <% if item.category == "**/@@"%>
-          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.category}.size %>)</a></td>
-        <% else %> 
-          <td><%= item.category%></td>
-        <% end %> 
-
-        <% if item.date_sell_by == DateTime.new(1111,11,11)%>
-          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.date_sell_by}.size %>)</a></td>
-        <% else %> 
-          <td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
-        <% end %> 
-        
-        <% if item.date_expires == DateTime.new(1111,11,11)%>
-          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.date_expires}.size %>)</a></td>
-        <% else %> 
-          <td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
-        <% end %> 
-        
-        <% if item.grams == 0.0 %>
-          <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.grams}.size %>)</a></td>
-        <% else %> 
-          <td><%= item.grams %></td>
-        <% end %> 
-        <% if item.note != nil %>
-        <td><a href="/items/<%= item.slug %>">*</a></td>
-        <% end %>
+  <% @fridges_hash.each do |fridge, items| %>
+    <h2><%= fridge.name %></h2>
+    <table class="all_items">
+    <tr class="all_items">
+      <th class="all_items"><a href="/items/sort_name">Name</a></th>
+      <th class="all_items"><a href="/items/sort_quantity">Quantity</a></th>
+      <th class="all_items category"><a href="/items/sort_category">Category</a></th>
+      <th class="all_items"><a href="/items/sort_date_sell_by">Sell By Date</a></th>
+      <th class="all_items"><a href="/items/sort_date_expires">Expiration Date</a></th>
+      <th class="all_items grams"><a href="/items/sort_grams">Amount(grams)</a></th>
+      <th class="all_items"> Note</th>
     </tr>
+    <% items.each do |item| %>
+      <tr class="all_items">
+          <td><a href="/items/<%= item.slug %>"><%= item.name %></a></td>
+          <td><%= item.quantity %></td>
+          <% if item.category == "**/@@"%>
+            <td class="category"><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.category}.size %>)</a></td>
+          <% else %> 
+            <td class="category"><%= item.category%></td>
+          <% end %> 
+
+          <% if item.date_sell_by == DateTime.new(1111,11,11)%>
+            <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.date_sell_by}.size %>)</a></td>
+          <% else %> 
+            <td><%= item.date_sell_by.nil? ? nil : item.date_sell_by.strftime("%m/%d/%y")%></td>
+          <% end %> 
+          
+          <% if item.date_expires == DateTime.new(1111,11,11)%>
+            <td><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.date_expires}.size %>)</a></td>
+          <% else %> 
+            <td><%= item.date_expires.nil? ? nil : item.date_expires.strftime("%m/%d/%y")%></td>
+          <% end %> 
+          
+          <% if item.grams == 0.0 %>
+            <td class="grams"><a href="/items/<%= item.slug %>">multiple(<%=@user.items.select_by_slug(item.slug).uniq{ |item| item.grams}.size %>)</a></td>
+          <% else %> 
+            <td class="grams"><%= item.grams %></td>
+          <% end %> 
+          <% if item.note != nil && !item.note.empty? %>
+            <td><a href="/items/<%= item.slug %>">*</a></td>
+          <% else%>
+            <td><a href="/items/<%= item.slug %>">&nbsp;</a></td>
+          <% end %>
+      </tr>
+    <% end %>
+    </table>
   <% end %>
-  </table>
-<% end %>
+</content>

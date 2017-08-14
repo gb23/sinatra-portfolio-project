@@ -94,7 +94,7 @@ class UsersController < ApplicationController
             user_to_link = User.find_by(username: params[:name])
             if user_to_link && user_to_link.authenticate(params[:password])
                 link_account(user_to_link, @user)
-                flash[:message] = "User \'#{user_to_link.username}\' has been linked to your account."
+                flash[:message] = "You have linked \'#{user_to_link.username}\' to your account."
                 erb :'users/show_user'
             else
                 flash[:message] = "Unable to link account.  Verify correct username and password."
@@ -150,11 +150,18 @@ class UsersController < ApplicationController
         @user = current_user
         user = User.find_by(username: params[:name])
         if user && user.authenticate(params[:password]) && user == @user
-            session.clear
+            @user.fridges.each do |fridge|
+                fridge.users.each do |user|
+                    if user == @user
+                        user.delete
+                    end
+                end
+            end
             @user.delete
+            session.clear
             redirect to '/'
         else
-            flash[:message] = "This is not your correct account information.  Cannot delete other accounts."
+            flash[:message] = "This is not the current account's correct account information."
             erb :'users/show_user'
         end
       else
@@ -172,6 +179,7 @@ class UsersController < ApplicationController
                 end
             end
             shared_hash = eliminate_self(shared_hash, user)
+            shared_hash = eliminate_duplicates(shared_hash)
             display_shared(shared_hash)
         end
 
@@ -185,27 +193,37 @@ class UsersController < ApplicationController
             end
         end
 
+        def eliminate_duplicates(shared_hash)
+            shared_hash.each do |fridge, usrs|   
+                usrs.uniq!
+            end
+        end
+
         def display_shared(shared_hash)
             display_string = ""
             shared_hash.each do |fridge, users|
                 if !users.empty?
                     if shared_hash.first[0] == fridge
-                        display_string = "<h2> Shared Accounts: </h2> "
+                        display_string = "<ul><h2> Shared Accounts: </h2> "
                     end
-                    display_string += "<h3> Fridge \'#{fridge.name}\' shared with:"
+                    display_string += "<li class=\"fridge\"><h5> Fridge \'#{fridge.name}\' shared with:"
                     users.each do |user|
                         display_string+= " #{user.username}"
                         display_string+= "," if users.last != user
+
                     end
-                    display_string += " </h3> "
+                    display_string += " </h5> </li>"
+               
                 end
             end
+    
+            display_string += "</ul>" if !display_string.empty?
             display_string
         end
 
         def link_account(user_to_link, user)
             user.fridges.all.each do |fridge|
-                fridge.users << user_to_link
+                fridge.users << user_to_link if !fridge.users.detect { |user| user == user_to_link }
             end
         end
 

@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20170727224127) do
     t.datetime "date_sell_by"
     t.datetime "date_expires"
     t.float    "grams"
-    t.float    "quantity"
+    t.integer  "quantity"
     t.integer  "fridge_id"
   end
 

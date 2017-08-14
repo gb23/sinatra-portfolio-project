@@ -28,7 +28,10 @@ class ApplicationController < Sinatra::Base
       @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
     end
 
-
-
+    def normalize_name(name)
+        name.split.collect do |word|
+          word.capitalize
+        end.join(" ")
+    end
   end
 end

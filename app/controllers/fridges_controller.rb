@@ -26,7 +26,7 @@ class FridgesController < ApplicationController
         @user = current_user
         @fridge = @user.fridges.select_by_slug(params[:slug]).first
         old_name = @fridge.name
-        @fridge.name = params[:name]
+        @fridge.name = normalize_name(params[:name])
         @fridge.save
         flash[:message] = "Fridge name \'#{old_name}\' changed to \'#{@fridge.name}\'."
         redirect to '/items'
@@ -38,11 +38,16 @@ class FridgesController < ApplicationController
     post '/fridges' do
       if logged_in?
         @user = current_user
-        fridge = Fridge.new(name: params[:name])
+        fridge = Fridge.new(name: normalize_name(params[:name]))
         if @user.fridges.find {|frdge| frdge.name == fridge.name}
           flash[:message] = "You already have a fridge named \'#{fridge.name}\'.  To avoid confusion, give it a new name."
           redirect to '/fridges/new'
         else
+          #reset sorting parameters
+          session[:visits] = nil
+          session[:sort_toggle] = nil
+          session[:sort_choice] = nil
+          #
           @user.fridges << fridge
           redirect to '/items/new'
         end
@@ -60,6 +65,11 @@ class FridgesController < ApplicationController
           item.delete
         end
         @fridge.delete
+        #reset sorting parameters
+        session[:visits] = nil
+        session[:sort_toggle] = nil
+        session[:sort_choice] = nil
+        #
         flash[:message] = "\'#{name}\' and its contents have been deleted."
         redirect to "/users/#{@user.slug}"
       else

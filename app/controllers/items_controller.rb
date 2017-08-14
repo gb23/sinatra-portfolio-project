@@ -24,26 +24,26 @@ class ItemsController < ApplicationController
             # }
      #} %>
             if !params[:item][:attributes][:name].empty?
-               attribute_hash[:name] = params[:item][:attributes][:name]
+               attribute_hash[:name] = normalize_name(params[:item][:attributes][:name])   
             end
             attribute_hash[:fridge] = @user.fridges.find_by(name: params[:item][:fridge][:name])
-            attribute_hash[:category] = params[:item][:attributes][:category]
+            attribute_hash[:category] = normalize_name(params[:item][:attributes][:category])
 
             if !params[:item][:attributes][:date_sell_by].empty?
-                date_array = params[:item][:attributes][:date_sell_by].split("/")
-                attribute_hash[:date_sell_by] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_sell_by].split("-")
+                attribute_hash[:date_sell_by] = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             if !params[:item][:attributes][:date_expires].empty?
-                date_array = params[:item][:attributes][:date_expires].split("/")
-                attribute_hash[:date_expires] = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_expires].split("-")
+                attribute_hash[:date_expires] = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             attribute_hash[:grams] = params[:item][:attributes][:grams]
             attribute_hash[:note] = params[:item][:attributes][:note] if !params[:item][:attributes][:note].empty?
-            attribute_hash[:quantity] = params[:item][:attributes][:quantity]
+            attribute_hash[:quantity] = params[:item][:attributes][:quantity].to_i
            
             fridge = @user.fridges.find(attribute_hash[:fridge].id)
             #must be integer...
-            attribute_hash[:quantity].to_f.ceil.times do
+            attribute_hash[:quantity].times do
                fridge.items.create(attribute_hash)
             end
 
@@ -133,43 +133,46 @@ class ItemsController < ApplicationController
         if logged_in?
             @user = current_user
             @item = @user.items.find{|item| item.id == params[:id].to_i}
+
+    #item.quanitity is how many items named 'brew' are in Bar Fridge.  Attributes can be different.
+            
             original_quantity = @item.quantity
             if !params[:item][:attributes][:name].empty?
-               @item.name = params[:item][:attributes][:name]
+               @item.name = normalize_name(params[:item][:attributes][:name])
             end
             @item.fridge = @user.fridges.find_by(name: params[:item][:fridge][:name])
-            @item.category = params[:item][:attributes][:category]
+            @item.category = normalize_name(params[:item][:attributes][:category])
 
             if !params[:item][:attributes][:date_sell_by].empty?
-                date_array = params[:item][:attributes][:date_sell_by].split("/")
-                @item.date_sell_by = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_sell_by].split("-")
+                @item.date_sell_by = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
             if !params[:item][:attributes][:date_expires].empty?
-                date_array = params[:item][:attributes][:date_expires].split("/")
-                @item.date_expires = DateTime.new(date_array[2].to_i + 2000, date_array[0].to_i, date_array[1].to_i)
+                date_array = params[:item][:attributes][:date_expires].split("-")
+                @item.date_expires = DateTime.new(date_array[0].to_i, date_array[1].to_i, date_array[2].to_i)
             end
-            @item.quantity = params[:item][:attributes][:quantity]
+            @item.quantity = params[:item][:attributes][:quantity].to_i
             @item.grams = params[:item][:attributes][:grams]
             @item.note = params[:item][:attributes][:note]
         
             fridge = @item.fridge
-            if @item.quantity > original_quantity
-               amount_added = (@item.quantity - original_quantity)
-               amount_added.ceil.times do
-               fridge.items.create(name: @item.name, fridge: @item.fridge, category: @item.category, 
-               date_sell_by: @item.date_sell_by, date_expires: @item.date_expires, quantity: @item.quantity,
-               grams: @item.grams, note: @item.note)
+            if @item.quantity > 1 #we are selecting 1 item to edit. this is if we are increasing this one item's quantity
+               amount_added = (@item.quantity - 1) #started with one item.  Selecting a new quantity in the form.
+               amount_added.times do
+                    fridge.items.create(name: @item.name, fridge: @item.fridge, category: @item.category, 
+                    date_sell_by: @item.date_sell_by, date_expires: @item.date_expires, quantity: @item.quantity,
+                    grams: @item.grams, note: @item.note)
+               end
+            # elsif @item.quantity < original_quantity
+            #     amount_subtracted = original_quantity - @item.quantity
+            #     amount_subtracted.times do 
+            #       fridge.items.last.delete
+            #     end
             end
-            elsif @item.quantity < original_quantity
-                amount_subtracted = original_quantity - @item.quantity
-                amount_subtracted.ceil.times do 
-                  fridge.items.last.delete
-                end
-            end
-#update quantity in db for ALL items, not just the new one
+        #update quantity in db for ALL items of a similar name (not just the new one) in a given fridge.
             @user.items.each do |item|
-                if item.name == @item.name
-                    item.quantity = @item.quantity
+                if item.name == @item.name && item.fridge == @item.fridge
+                    item.quantity = @item.quantity + original_quantity
                     item.save
                 end
             end
@@ -189,7 +192,9 @@ class ItemsController < ApplicationController
             alphabetical_fridges = user.fridges.order(:name)
             alphabetical_fridges.each do |fridge|
                 fridges_hash[fridge] = []
-                sorted_items = sort_items(fridge)
+
+                sorted_items = sort_items(fridge, user)
+
                 sorted_items.each do |item| 
                     if !duplicate_names.find{|slug| slug == item.slug}
                         item_grouping = user.items.select_by_slug(item.slug)
@@ -240,9 +245,9 @@ class ItemsController < ApplicationController
         end
     end
 
-    def sort_items(fridge)
+    def sort_items(fridge, user)
         if !session[:sort_toggle].nil?
-            if session[:visits] > 0 && session[:visits] < 3
+            if session[:visits] > 0 && session[:visits] < user.fridges.size
                 session[:visits] = session[:visits] + 1
             else
                 session[:sort_toggle] == 0 ? session[:sort_toggle] = 1 : session[:sort_toggle] = 0
@@ -281,14 +286,20 @@ class ItemsController < ApplicationController
     def apply_sort_to_duplicate_items(fridges_hash)
         fridges_hash.each do |fridge, items|
             temp_array = []
+            delete_items = []
             #looking at items array: if any items have item.session[:sort_choice] set to "**/@@"
             #remove them from items and add them to temp_array
+
             items.each do |item|
+
                 if item.send(session[:sort_choice]) == "**/@@" || item.send(session[:sort_choice]) == 0.0 || item.send(session[:sort_choice]) == DateTime.new(1111,11,11)
                     temp_array << item
-                    items.delete(item)
                 end    
             end
+
+            temp_array.each { |item| items.delete(item) }
+            #delete entries in temp_array from items.  will be adding them back in in a sec.
+
             temp_array.sort_by!{|item| item[:name]}
             #sort temp array alphabetically by item.name
 

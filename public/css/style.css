@@ -1,0 +1,407 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/* General Properties */
+*{
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+a:link{
+    color: #4412AA;
+}
+
+a:visited{
+    color: #4412AA;
+}
+a:hover{
+    color: #FF3DFF;
+}
+
+html{
+    margin: 0 0 100px 0;
+} 
+
+warning{
+    color: red;
+}
+/*-----------------*/
+
+/* Layout header with nav links and logo */
+header a{ 
+    text-decoration: none;
+    margin: 20px;
+}
+nav.wrap {
+    height: 25px;
+    position: fixed;
+    top: 15px;
+    right: 10px;
+}
+
+
+
+#head {
+    position: fixed;
+    top: 0px;
+    right: 20px;
+    margin: 0px 0;
+}
+img[alt="Logo"]{
+    height: 200px; 
+   /* width: auto;  */
+    position: fixed;
+    top: 40px;
+    left: -20px;
+}
+
+@media only screen and (max-width: 1355px){
+
+    img[alt="Logo"]{
+      display: none;
+    }
+
+}
+
+header {
+    height: 40px;
+    width: 100%;
+    background:#20C0E5; 
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+@media only screen and (max-width: 621px){
+    
+        nav.wrap .headers_to_move{
+            display: inline;
+        }
+
+        nav.wrap{
+            display: inline-flex;
+        }
+        header{
+            display: flex;
+            height: 90px;
+        }
+}
+@media only screen and (max-width: 440px){
+    header{
+        font-size: small;
+    }
+
+}
+@media only screen and (max-width: 955px){
+body {
+    margin: 48px 0 0px 4%;
+}
+}
+/* 
+@media only screen and (max-width: 954px){
+    
+    table.all_items{
+        border: dashed;
+    }
+} */
+@media only screen and (min-width: 1030px){
+flash {
+    position:fixed;
+    top: 13px;
+    left: 16px;
+}
+}
+@media only screen and (max-width: 1030px){
+    flash{
+        display: none;
+    }
+}
+/* ---------------------- */
+
+/* index.html "view items" tables */
+content.table_content{
+    float: right;
+    margin: 100px 40% 0 0;
+    
+}
+content.table_content h1{
+    margin: 2.67em 0;
+}
+
+table.all_items{
+    border: dashed;
+}
+
+@media only screen and (max-width: 1355px) and (min-width: 955px){
+    
+    content.table_content {
+        margin: 100px 40% 0 3%;
+    }
+    
+}
+
+
+@media only screen and (max-width: 954px){
+    content.table_content{
+        float: none;
+    }
+
+}
+@media only screen and (max-width: 620px){
+    table.all_items{
+        display: table-caption;
+    }
+}
+
+@media only screen and (max-width: 585px){
+    content.table_content .category{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    content.table_content .grams{
+        display: none;
+    }
+}
+
+
+.table_content h2{
+    margin: 45px 0px 10px 0;
+}
+
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}
+
+th.all_items{
+    background:#20C0E5; 
+}
+/* -------------------------- */
+
+/* show_item.html "item view" */
+section.show_item{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+.show_item h3.title{
+    display: inline;
+    background:#20C0E5;
+    margin: 0 10px 0 0;
+    /* padding: 0 220px; */
+    /* width: auto; */
+}
+
+input[type="submit"]{
+    display: inline;
+    margin: 0 -10px 0 16px;
+    padding: 0
+}
+/*-------------------------*/
+
+/* edit_item.erb "edit items" */
+/* form input formatting too */
+section.show_edit_item{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+div.edit_name{
+    background:#20C0E5;
+    display: inline;
+    padding: 0 10px;
+}
+
+label{
+    display: inline-table;
+    background:#20C0E5;
+    float: left;
+    width: 23%;
+    text-align: center;
+    padding: 2px;
+}
+label.sell_by{
+    height: 23px;
+}
+label.expires{
+    height: 23px;
+}
+input[type="submit"].edit_button {
+    /* display: inline; */
+    margin: 20px 0 0 12%;
+    padding: 10px;
+  }
+/* create_fridge "add fridge" */
+section.create_fridge{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+section.create_fridge h2{
+    /* display: inline; */
+    /* float: right; */
+    margin: 0 0 28px 6%;
+}
+input[type="submit"].create_fridge_button {
+    /* display: inline; */
+    margin: 20px 0 0 12%;
+    padding: 10px;
+  }
+/*-------------------------*/
+
+/* create_item.erb "Create Item"  */
+section.create_item{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+section.create_item h2{
+    /* display: inline; */
+    /* float: right; */
+    margin: 0 0 10px 12%;
+}
+input[type="submit"].create_item_button {
+    /* display: inline; */
+    margin: 28px 0 0 15%;
+    padding: 10px;
+  }
+
+
+/*-------------------------*/
+/* show_user.erb "My Account" */
+section.show_user{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+input[type="submit"].show_user_button {
+    /* display: inline; */
+    margin: 20px 0 8px 15%;
+    padding: 1px;
+  }
+
+section.show_user form.divider{
+    border-bottom: dashed;
+}
+
+input[type="submit"].special {
+   display: inline;
+   margin: 0;
+   padding: 2px;
+  }
+
+li h3.fridge_name{
+    display: inline;
+}
+
+li.fridge{
+    display: inline;
+}
+
+section.show_user form.inline{
+    display: inline;
+}
+
+@media only screen and (max-width: 800px){
+    form{
+    display: inline-grid;
+    }
+}
+
+
+/*--------------------------*/
+/* edit-fridge */
+section.edit_fridge{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+input[type="submit"].edit_fridge_button {
+    /* display: inline; */
+    margin: 20px 0 8px 15%;
+    padding: 1px;
+  }
+
+section.edit_fridge h2{
+    /* display: inline; */
+    /* float: right; */
+    margin: 0 0 28px 6%;
+}
+/*-------------*/
+/*login.erb  Log in */
+section.log_in{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+input[type="submit"].log_in{
+display: block;
+margin: 32px 0px 0 236px;
+padding: 6px;
+}
+/*-------------*/
+/*main index.erb "/" */
+section.home{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+@media only screen and (max-width: 720px){
+    section.home{
+        margin: 100px 45px 0 12%;
+    }
+}
+/*-------------*/
+
+
+
+/*create_user.erb  create user */
+section.create_user{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+input[type="submit"].create_user_button {
+    /* display: inline; */
+    margin: 28px 0 0 15%;
+    padding: 10px;
+  }
+/*-------------*/
+
+
+/* failure.erb  user incorrectly inputs account data */
+section.failure{
+    /* display: inline; */
+    /* float: right; */
+    margin: 100px 0 0 12%;
+}
+
+img[alt="Unhappy Logo"]{
+    margin: -23px;
+}
+
+@media only screen and (max-width: 628px){
+    img[alt="Unhappy Logo"]{
+        display: none;
+    }
+}
+/*-------------*/
+
+/*------Smiling Logo, multiple html files-------*/
+img[alt="Smiling Logo"]{
+    position: fixed;
+    top: 19%;
+    right: 0;
+    }
+    
+    @media only screen and (max-width: 1140px){
+        img[alt="Smiling Logo"]{
+            display: none;
+        }
+    }
+    /*-------------*/

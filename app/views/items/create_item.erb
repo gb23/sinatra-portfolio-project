@@ -1,3 +1,6 @@
+
+<section class="create_item">
+
 <h2> Create Item!</h2>
 
 <form method="post" action="/items">
@@ -5,8 +8,8 @@
   <input type="text" id=name name="item[attributes][name]" required><br>
 
   <label for="quantity">Quantity: </label>
-  <input type="text" id=quantity name="item[attributes][quantity]" value="1.0" required><br>
-
+  <input type="number" id=quantity name="item[attributes][quantity]" min="1" max="100" value="1" required><br>
+ 
   <label for="fridge">Fridge</label>
   <select name="item[fridge][name]" id="fridge">
     <% @user.fridges.each do |fridge| %>
@@ -16,17 +19,27 @@
 
   <label for="category">Category: </label>
   <input type="text" id=category name="item[attributes][category]" placeholder="Dessert"><br>
+<<<<<<< HEAD
   <label for="sell_by">Sell By Date: </label>
   <input type="text" id=sell_by name="item[attributes][date_sell_by]" placeholder="MM/DD/YY"><br>
   <label for="expires">Expiration Date: </label>
   <input type="text" id=expires name="item[attributes][date_expires]" placeholder="MM/DD/YY"><br>
   <label for="grams">Weight(grams): </label>
+=======
+  <label for="sell_by" class="sell_by">Sell By Date: </label>
+  <input type="date" id=sell_by name="item[attributes][date_sell_by]" ><br>
+  <label for="expires" class="expires">Expiration Date: </label>
+  <input type="date" id=expires name="item[attributes][date_expires]"><br>
+  <label for="grams">Amount(grams): </label>
+>>>>>>> CSS-branch
   <input type="text" id=grams name="item[attributes][grams]"><br>
   <label for="note">Note: </label>
   <input type="text" id=note name="item[attributes][note]"><br>
-  <input type="submit" value="submit">
+  <input type="submit" class="create_item_button" value="submit">
 </form>
 
+<img src="/images/smiling_logo.svg" alt="Smiling Logo">
+</section>
 
 
      <%# #params{   
