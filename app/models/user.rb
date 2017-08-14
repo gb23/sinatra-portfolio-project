@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true
   validates :password, presence: true
+  validates_uniqueness_of :email
   has_secure_password
 
   extend Slugifiable::ClassMethods

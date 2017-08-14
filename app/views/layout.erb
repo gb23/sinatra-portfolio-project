@@ -27,19 +27,11 @@
     <% if flash.has?(:message) %>
         <%= flash[:message] %>
     <% end %>
-<<<<<<< HEAD
     <%= yield %>
 
   <% if logged_in? %>
       <br></br>
       <a href="/items">View All Items</a>
   <% end %>
-=======
-    </flash>
-    <%# <content class="main_content_wrapper"> %>
-      <%= yield %>
-    <%# </content> %>
- 
->>>>>>> CSS-branch
   </body>
 </html>

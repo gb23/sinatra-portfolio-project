@@ -14,7 +14,7 @@ Specs:
 - [x] Ensure that users can't modify content created by other users
         Users only have access to fridges of their own account or an account that they personally linked.
 - [x] Include user input validations
-        User must have username, User must have password, Fridge must have name, 
+        User must have username, User must have password, Fridge must have name, Item must have name.
 - [x] Display validation failures to user with error message (example form URL e.g. /posts/new)
 - [x] Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code
 
