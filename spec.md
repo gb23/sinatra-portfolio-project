@@ -16,10 +16,16 @@ Specs:
 - [x] Include user input validations
         User must have username, User must have password, Fridge must have name, Item must have name.
 - [x] Display validation failures to user with error message (example form URL e.g. /posts/new)
+        Improper user input results in failure.erb rendered in browser
 - [x] Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code
+        See README.md for these requirements.
 
 Confirm
 - [x] You have a large number of small Git commits
+        See github for 50+ commits
 - [x] Your commit messages are meaningful
+        See github for 50+ commits
 - [x] You made the changes in a commit that relate to the commit message
+        See github for 50+ commits
 - [x] You don't include changes in a commit that aren't related to the commit message
+        See github for 50+ commits
