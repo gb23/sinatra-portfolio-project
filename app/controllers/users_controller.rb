@@ -94,7 +94,7 @@ class UsersController < ApplicationController
             user_to_link = User.find_by(username: params[:name])
             if user_to_link && user_to_link.authenticate(params[:password])
                 link_account(user_to_link, @user)
-                flash[:message] = "User \'#{user_to_link.username}\' has been linked to your account."
+                flash[:message] = "You have linked \'#{user_to_link.username}\' to your account."
                 erb :'users/show_user'
             else
                 flash[:message] = "Unable to link account.  Verify correct username and password."
@@ -150,8 +150,15 @@ class UsersController < ApplicationController
         @user = current_user
         user = User.find_by(username: params[:name])
         if user && user.authenticate(params[:password]) && user == @user
-            session.clear
+            @user.fridges.each do |fridge|
+                fridge.users.each do |user|
+                    if user == @user
+                        user.delete
+                    end
+                end
+            end
             @user.delete
+            session.clear
             redirect to '/'
         else
             flash[:message] = "This is not the current account's correct account information."

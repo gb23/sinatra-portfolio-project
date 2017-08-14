@@ -48,7 +48,8 @@
     <form class="inline" action="/fridges/<%= fridge.slug %>/delete" method="post">
         <input id="hidden" type="hidden" name="_method" value="delete">
         <input class="special" type="submit" value="Delete">
-        <p> <warning><strong>Warning<strong></warning>: Deleting this fridge will delete all items contained within! </p><br>
+        <p> <warning><strong>Warning<strong></warning>: Deleting this fridge will delete all items contained within!<br>
+        Fridge and its contents will also be deleted for shared accounts too!</p><br>
 
     </form>
     </ul>
@@ -75,6 +76,8 @@
 <% end %>
 
 <h2>Link Another Account?</h2>
+<p>This enables user <%= @user.username %> to give co-ownership of <%= @user.username %>'s Fridges and items<br>
+to account entered below.
 <p>Have account owner of account to link provide username and password:</p>
 
 <form class="divider" action="/users/<%= @user.slug %>/link" method="post">
@@ -91,7 +94,8 @@
 </form>
 
 <h2>Delete My Account</h2>
-<p><warning><strong>Warning<strong></warning>: This cannot be undone.  Access to all fridges and items will be lost. <br>
+<p><warning><strong>Warning<strong></warning>: This cannot be undone.  Access to all your fridges and items will be lost
+for you. <br>
 Re-enter your username and password to verify:</p>
 <form class="divider" action="/users/<%= @user.slug %>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
