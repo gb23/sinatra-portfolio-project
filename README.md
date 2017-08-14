@@ -1,57 +1,76 @@
-# Sinatra Fridge Inventory
+# Sinatra Refrigerator Inventory app
 
-- [ ] Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code
-
-# Sinatra Course Management app
+The refrigerator ("Fridge") inventory app provides a database and web interface for users to:
+* Create an account which manages user's Fridges and Items contained within.
+* Each user can **ONLY** modify content of his/her own fridge (and its contents within).  The **EXCEPTION** is with shared accounts.  A fridge rarely belongs to just one person, so multiple people can "co-own" a fridge with this app's built-in account ```linking``` feature.
+    * A user can create, read, update, and delete (CRUD) any items in a fridge to which he or she is an owner or co-owner of said fridge.
+    * A user is also able to perform CRUD operators on any fridges themselves to which he/she owns/co-owns.
+    * A user, in addition to sharing fridges with other users, can also view the accounts to which he/she is currently sharing and use an ```unlinking``` feature to unlink any user that is currently linked.
+    * A user is also able to update his/her own information, as well as update current password, and delete his/her account.
+    * User inputs are validated for users, fridges, and items creation.
 
 This app was built with Sinatra, extended with [Rake tasks](https://github.com/ruby/rake) for working with an SQL database using [ActiveRecord ORM](https://github.com/rails/rails/tree/master/activerecord).
-
-The course management app provides a database and web interface for users to:
-* Sign up as a student or instructor
-* Users can review all courses and users available
-* Each user can **ONLY** modify content of their own course/registration:
-    * An instructor can create, read, update, and delete (CRUD) a course
-    * A student can create, read, update, and delete (CRUD) a course registration
-* User inputs are validated for account/course/registration creation
 
 ## Usage
 
 After checking out the repo, run ```bundle install``` to install Ruby gem dependencies.
 
-You can start one of Rack's supported servers using the [shotgun](https://github.com/rtomayko/shotgun) command ```shotgun```
-
-Shotgun can be used as an alternative to the complex reloading logic provided by web frameworks or in environments that don't support application reloading.
+You can start one of Rack's supported servers using the [shotgun](https://github.com/rtomayko/shotgun) command ```shotgun``` and navigate to `localhost:9393` in your browser.
 
 
-## Model Classes
-The Course Management app database includes three model classes: ```User, Course, UserCourse```
+## Models
+The Fridge Inventory app database includes four model classes: ```User, UserFridge, Fridge, and Item```
 
-1. User: stores user attributes, including:
-    * Full Name
+1. User:
+```
+  has_many :user_fridges
+  has_many :fridges, through: :user_fridges
+  has_many :items, through: :fridges
+```
+    Has attributes:
+    * First Name
+    * Last
     * Username
     * Email
     * Password (Secured with [Bcrypt](https://github.com/codahale/bcrypt-ruby) hashing algorithm)
-    * Biography
-    * Instructor, a boolean value to indicate if a user is an instructor
 
-2. Course: stores course attributes, including:
-    * Name
-    * Descirption
-    * Icon, a string value that is commonly an emoji 📚
-    * Level, indicates course difficulty (Beginner == 0, Intermediate == 1, Advance == 2)
-    * Instructor_id, to associate course with an instructor
+2. UserFridge (join table):
+```
+  belongs_to :user
+  belongs_to :fridge
+```
+    Has attributes:
+    * user_id
+    * fridge_id
 
-3. UserCourse: stores student course registrations attributes, including:
-    * Confirmation, indicates registration status (Pending == 0, Waitlist == 1, Enrolled == 2)
-    * Notes, student's request to enroll in a course
-    * User_id, to associate registration with a student
-    * Course_id, to associate registration with a course
+3. Fridge
+```
+    has_many :items
+    has_many :user_fridges
+    has_many :users, through: :user_fridges
+```
+    Has attributes:
+    * name
+4. Item   
+```
+    has_many :items
+    has_many :user_fridges
+    has_many :users, through: :user_fridges
+```
+    Has attributes:
+    * name
+    * quantity
+    * category
+    * note
+    * Sell by date
+    * Expiration date
+    * amount (grams)
+    * fridge_id
+  
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at [Fridge Inventory Repo]https://github.com/gb23/sinatra-portfolio-project
-
-This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://github.com/dannyd4315/worlds-best-restaurants-cli-gem/blob/master/contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at [Fridge Inventory Repo](https://github.com/gb23/sinatra-portfolio-project).
 
 ## License
 
