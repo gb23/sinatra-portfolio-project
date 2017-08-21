@@ -3,8 +3,6 @@ class UsersController < ApplicationController
         erb :'users/login'
     end
 
-
-
     get '/users/create_user' do
         erb :'users/create_user'
     end
@@ -223,7 +221,7 @@ class UsersController < ApplicationController
 
         def link_account(user_to_link, user)
             user.fridges.all.each do |fridge|
-                fridge.users << user_to_link if !fridge.users.detect { |user| user == user_to_link }
+                fridge.users << user_to_link if !fridge.users.detect{ |user| user == user_to_link }
             end
         end
 

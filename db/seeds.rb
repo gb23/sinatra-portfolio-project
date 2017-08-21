@@ -60,7 +60,7 @@ u2_i9k = Item.create(name: "Avocado", category: "Vegetable", note: nil, date_sel
 u2.fridges.first.items << u2_i1k << u2_i2k << u2_i3k << u2_i4k << u2_i5k << u2_i6k << u2_i7k << u2_i8k << u2_i9k
 
 #----------------------------------------
-# Do not use for now
+# Additional data
 # u3a = User.create(first_name: "Celine", last_name: "Dion", username:"celiD", password: "g", email:"celi@me.com")
 # u3b = User.create(first_name: "Dave", last_name: "Dion", username:"daviddi", password: "g", email:"daviddi@me.com")
 # u3c = User.create(first_name: "Mary", last_name: "Dion", username:"mardi", password: "g", email:"mardi@icloud.com")

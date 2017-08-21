@@ -16,13 +16,13 @@ class ItemsController < ApplicationController
     post '/items' do
           if logged_in?
             @user = current_user      
-          attribute_hash = {}
+            attribute_hash = {}
             # <%# #params{   
             # item => {
             #     attributes => {name:___, category:___,...,note:_____]
             #     fridge => {name:____}
             # }
-     #} %>
+            #} %>
             if !params[:item][:attributes][:name].empty?
                attribute_hash[:name] = normalize_name(params[:item][:attributes][:name])   
             end
@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
             attribute_hash[:quantity] = params[:item][:attributes][:quantity].to_i
            
             fridge = @user.fridges.find(attribute_hash[:fridge].id)
-            #must be integer...
+           
             attribute_hash[:quantity].times do
                fridge.items.create(attribute_hash)
             end
@@ -156,20 +156,15 @@ class ItemsController < ApplicationController
             @item.note = params[:item][:attributes][:note]
         
             fridge = @item.fridge
-            if @item.quantity > 1 #we are selecting 1 item to edit. this is if we are increasing this one item's quantity
+            if @item.quantity > 1 #we are selecting 1 item to edit. this is true if we are increasing this one item's quantity
                amount_added = (@item.quantity - 1) #started with one item.  Selecting a new quantity in the form.
                amount_added.times do
                     fridge.items.create(name: @item.name, fridge: @item.fridge, category: @item.category, 
                     date_sell_by: @item.date_sell_by, date_expires: @item.date_expires, quantity: @item.quantity,
                     grams: @item.grams, note: @item.note)
                end
-            # elsif @item.quantity < original_quantity
-            #     amount_subtracted = original_quantity - @item.quantity
-            #     amount_subtracted.times do 
-            #       fridge.items.last.delete
-            #     end
             end
-        #update quantity in db for ALL items of a similar name (not just the new one) in a given fridge.
+            #update quantity in db for ALL items of a similar name (not just the new one) in a given fridge.
             @user.items.each do |item|
                 if item.name == @item.name && item.fridge == @item.fridge
                     item.quantity = @item.quantity + original_quantity
@@ -286,19 +281,18 @@ class ItemsController < ApplicationController
     def apply_sort_to_duplicate_items(fridges_hash)
         fridges_hash.each do |fridge, items|
             temp_array = []
-            delete_items = []
-            #looking at items array: if any items have item.session[:sort_choice] set to "**/@@"
+    
+            #looking at items array: if any items have item.session[:sort_choice] set to "**/@@", 0.0, 11/11/1111
             #remove them from items and add them to temp_array
 
             items.each do |item|
-
                 if item.send(session[:sort_choice]) == "**/@@" || item.send(session[:sort_choice]) == 0.0 || item.send(session[:sort_choice]) == DateTime.new(1111,11,11)
                     temp_array << item
                 end    
             end
 
             temp_array.each { |item| items.delete(item) }
-            #delete entries in temp_array from items.  will be adding them back in in a sec.
+            #delete entries in temp_array from items.  will be adding them back in a sec.
 
             temp_array.sort_by!{|item| item[:name]}
             #sort temp array alphabetically by item.name

@@ -7,7 +7,6 @@ class FridgesController < ApplicationController
       else
         erb :'users/failure'
       end
-      
     end
   
   
@@ -47,7 +46,7 @@ class FridgesController < ApplicationController
           session[:visits] = nil
           session[:sort_toggle] = nil
           session[:sort_choice] = nil
-          #
+          
           @user.fridges << fridge
           redirect to '/items/new'
         end
@@ -65,6 +64,7 @@ class FridgesController < ApplicationController
           item.delete
         end
         @fridge.delete
+        
         #reset sorting parameters
         session[:visits] = nil
         session[:sort_toggle] = nil
